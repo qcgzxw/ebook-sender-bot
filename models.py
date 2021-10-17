@@ -26,7 +26,9 @@ class User(BaseModel):
     def find_or_create(from_user):
         telegram_id = str(from_user.id)
         username = from_user.username
-        nickname = " ".join((from_user.first_name, from_user.last_name))
+        nickname = from_user.first_name \
+            if from_user.last_name is None \
+            else " ".join((from_user.first_name, from_user.last_name))
         user, _ = User.get_or_create(telegram_id=telegram_id,
                                      defaults={'username': username,
                                                'nickname': nickname})
