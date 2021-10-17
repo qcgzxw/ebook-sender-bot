@@ -22,6 +22,7 @@ class TgBot:
     lang = 'en-us'
     logger = None
     menus = ['/start', '/help', '/email']
+    allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -134,8 +135,8 @@ class TgBot:
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file type
-        if update.message.document.file_name.split(".")[-1] not in ("mobi", "epub", "azw", "azw3"):
-            reply_msg = "You can only send [.mobi|.epub|.azw|.azw3] files to your kindle."
+        if update.message.document.file_name.split(".")[-1] not in self.allow_file:
+            reply_msg = "You can only send [." + "|.".join(self.allow_file) + "] files to your kindle."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file size
