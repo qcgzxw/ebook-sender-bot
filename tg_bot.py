@@ -112,7 +112,6 @@ class TgBot:
         reply_msg = "Please, check your e-mail and try again."
         email = update.message.text
         if email:
-            print(len(email.split()))
             if len(email.split()) == 1:
                 reply_msg = "Send: \r\n" \
                             "<code>/email send-to-kindle-email@kindle.com</code>\r\n" \
