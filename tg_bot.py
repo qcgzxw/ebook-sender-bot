@@ -121,7 +121,15 @@ class TgBot:
                 if validate_email(email) and (email.endswith("@kindle.com") or email.endswith("@kindle.cn")):
                     user = models.User.find_or_create(update.message.from_user)
                     user.set_email(email)
-                    reply_msg = "New email set."
+                    reply_msg = "New email set.\r\n" \
+                                "Then add : <code>" + os.getenv("SMTP_USERNAME") + "</code>\r\n" \
+                                + "to the <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment" \
+                                  "'>Approved Personal Document Email List</a>"\
+                                + "\r\n" \
+                                + "\r\n" \
+                                + "<a href='https://www.amazon.com/gp/help/customer/display.html?nodeId" \
+                                  "=GX9XLEVV8G4DB28H'>Add an Email Address to Receive Documents in Your Kindle " \
+                                  "Library</a>"
 
         update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
 
