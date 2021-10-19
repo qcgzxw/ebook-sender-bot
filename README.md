@@ -20,10 +20,10 @@ python main.py
 
 ## Todo
 - [x] Send document to kindle email
+- [ ] mysql
 - [ ] i18n
 - [ ] test case
 - [ ] telegram MessageReply class
 - [ ] document information
 - [ ] covert books with calibre
 - [ ] queue
-- [ ] i18n
