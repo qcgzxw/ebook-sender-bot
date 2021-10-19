@@ -39,6 +39,13 @@ class TgBot:
         """Log the error and send a telegram message to notify the developer."""
         # Log the error before we do anything else, so we can see it even if something breaks.
         self.logger.error(msg="Exception while handling an update:", exc_info=context.error)
+        # Send the error to user
+        if update is not None:
+            update.message.reply_text(
+                f"<b>Error</b>:\r\n<pre> {context.error} </pre>\r\n\r\n"
+                + "<b>Contact us at</b>:\r\n"
+                + "<a href='https://github.com/qcgzxw/ebook-sender-bot/issues'>https://github.com/qcgzxw/ebook-sender"
+                  "-bot/issues</a> ", parse_mode=ParseMode.HTML)
         if self.develop_chat_id is not None:
             # traceback.format_exception returns the usual python message about an exception, but as a
             # list of strings rather than a single string, so we have to join them together.
