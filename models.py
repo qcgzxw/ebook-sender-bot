@@ -28,7 +28,7 @@ class User(BaseModel):
         first_name = "" if from_user.first_name is None else from_user.first_name
         last_name = "" if from_user.last_name is None else from_user.last_name
         nickname = " ".join((first_name, last_name))
-        username = nickname if from_user.username is not None else from_user.username
+        username = nickname if from_user.username is None else from_user.username
         user, _ = User.get_or_create(telegram_id=telegram_id,
                                      defaults={'username': username,
                                                'nickname': nickname})
