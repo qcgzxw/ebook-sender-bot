@@ -75,7 +75,7 @@ class TgBot:
         update.message.reply_text(
             "First, set your <b>Send-to-Kindle e-mail</b> by send command\r\n"
             "<code>/email send-to-kindle-email@kindle.com</code>.\r\n"
-            "You can get more send<code>/help</code>."
+            "You can get more send /help"
             , parse_mode=ParseMode.HTML
         )
 
