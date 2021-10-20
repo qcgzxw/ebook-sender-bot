@@ -1,13 +1,17 @@
 import os
 
 from dotenv import load_dotenv
+from playhouse.db_url import connect
 
 import models
 from tg_bot import TgBot
 
 
 def register_db() -> None:
-    models.database.create_tables([models.User, models.UserEmail, models.UserSendLog])
+    # more information: http://docs.peewee-orm.com/en/latest/peewee/database.html#connecting-using-a-database-url
+    database = connect(os.environ.get('DATABASE') or 'sqlite:///database.db')
+    models.database_proxy.initialize(database)
+    database.create_tables([models.User, models.UserEmail, models.UserSendLog])
 
 
 def run_tg_bot() -> None:

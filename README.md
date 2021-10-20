@@ -20,7 +20,7 @@ python main.py
 
 ## Todo
 - [x] Send document to kindle email
-- [ ] mysql
+- [x] mysql
 - [ ] i18n
 - [ ] test case
 - [ ] telegram MessageReply class

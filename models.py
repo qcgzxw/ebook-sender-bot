@@ -2,18 +2,12 @@ import datetime
 
 from peewee import *
 
-database = SqliteDatabase('database.db', pragmas={
-    'journal_mode': 'wal',
-    'cache_size': -1 * 64000,
-    'foreign_keys': 1,
-    'ignore_check_constraints': 0,
-    'synchronous': 0
-})
+database_proxy = DatabaseProxy()
 
 
 class BaseModel(Model):
     class Meta:
-        database = database
+        database = database_proxy
 
 
 class User(BaseModel):
