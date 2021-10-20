@@ -11,9 +11,9 @@ class BaseModel(Model):
 
 
 class User(BaseModel):
-    telegram_id = CharField(unique=True)
-    username = CharField()
-    nickname = CharField(default=None)
+    telegram_id = CharField(unique=True, max_length=20)
+    username = CharField(max_length=128)
+    nickname = CharField(default=None, max_length=250)
     join_time = DateTimeField(default=datetime.datetime.now)
 
     @staticmethod
@@ -56,7 +56,7 @@ class User(BaseModel):
 
 class UserEmail(BaseModel):
     user = ForeignKeyField(User, backref='emails')
-    email = CharField()
+    email = CharField(max_length=100)
 
 
 class UserSendLog(BaseModel):
