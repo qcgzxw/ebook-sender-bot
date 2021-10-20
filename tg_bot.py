@@ -31,8 +31,10 @@ class TgBot:
             logging.basicConfig(level=logging.DEBUG,
                                 format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         else:
-            logging.basicConfig(level=logging.ERROR,
-                                format='%(asctime)s - %(message)s')
+            logging.basicConfig(level=logging.DEBUG,
+                                format='%(asctime)s - %(message)s - %(levelname)s - %(message)s',
+                                handlers=[logging.FileHandler(filename='default.log', mode='a', encoding='utf-8')],
+                                )
         self.logger = logging.getLogger("telegram_message")
 
     def error_handler(self, update: Update, context: CallbackContext) -> None:
@@ -118,15 +120,18 @@ class TgBot:
         """Set kindle email"""
         reply_msg = "Please, check your e-mail and try again."
         email = update.message.text
+        user = models.User.find_or_create(update.message.from_user)
         if email:
             if len(email.split()) == 1:
-                reply_msg = "Send: \r\n" \
+                if len(user.emails) == 0:
+                    reply_msg = "Send: \r\n" \
                             "<code>/email send-to-kindle-email@kindle.com</code>\r\n" \
                             "to set your kindle email."
+                else:
+                    reply_msg = f"Your email address: {user.emails[0].email}."
             else:
                 email = email.split()[-1].lower()
                 if validate_email(email) and (email.endswith("@kindle.com") or email.endswith("@kindle.cn")):
-                    user = models.User.find_or_create(update.message.from_user)
                     user.set_email(email)
                     reply_msg = "New email set.\r\n" \
                                 "Then add : <code>" + os.getenv("SMTP_USERNAME") + "</code>\r\n" \
