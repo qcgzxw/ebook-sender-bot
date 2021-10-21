@@ -48,13 +48,13 @@ class User(BaseModel):
                 )
 
     def log_send_email(self):
-        # todo: kindle_email, file_unique_id
         return (
             UserSendLog.create(user=self)
         )
 
 
 class UserEmail(BaseModel):
+    # todo: kindle_email, file_unique_id
     user = ForeignKeyField(User, backref='emails')
     email = CharField(max_length=100)
 

@@ -3,8 +3,8 @@ import json
 import logging
 import os
 import traceback
-from email import encoders
 from email.header import Header
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -14,6 +14,7 @@ from validate_email import validate_email
 
 import models
 import smtp
+import utils
 
 
 class TgBot:
@@ -21,8 +22,8 @@ class TgBot:
     develop_chat_id = None
     lang = 'en-us'
     logger = None
-    menus = ['/start', '/help', '/email']
     allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
+    allow_send_file = allow_file + ('azw3', 'epub', 'azw')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -154,8 +155,8 @@ class TgBot:
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file type
-        if update.message.document.file_name.split(".")[-1] not in self.allow_file:
-            reply_msg = "You can only send [." + "|.".join(self.allow_file) + "] files to your kindle."
+        if update.message.document.file_name.split(".")[-1] not in self.allow_send_file:
+            reply_msg = "You can only send [." + "|.".join(self.allow_send_file) + "] files to your kindle."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file size
@@ -179,14 +180,23 @@ class TgBot:
                 reply_msg = "Download failed."
                 update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
                 return
-        reply_msg = "Sending..."
+        book_meta = utils.get_book_meta(save_path)
+        reply_msg = ""
+        for key in book_meta.keys():
+            if book_meta[key] != 'Unknown':
+                reply_msg += f"<b>{key}:</b> <pre>{book_meta[key]}</pre>\r\n\r\n"
+        if reply_msg == "":
+            reply_msg = "sending..."
         update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+        if os.path.exists(os.path.dirname(save_path) + os.sep + 'cover.png'):
+            update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
+        if update.message.document.file_name.split(".")[-1] not in self.allow_file:
+            # convert ebook to mobi
+            utils.convert_book_to_mobi(save_path)
         if smtp.send_to_kindle(user, self.set_message(update)):
             update.message.reply_text("Done.You can check if this file can be found on your kindle!")
         else:
             update.message.reply_text("Sending failed!")
-        # todo: send document info
-        # todo: convert books
         # todo: add to queue
 
     @staticmethod
@@ -203,21 +213,26 @@ class TgBot:
 
     @staticmethod
     def set_message(update: Update) -> MIMEMultipart:
+        file_name = update.message.document.file_name
         file_path, _ = TgBot.get_file_save_path(update)
+        if file_name.split('.')[-1] != ".mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
+            file_path = os.path.splitext(file_path)[0] + ".mobi"
+            file_name = os.path.splitext(file_name)[0] + ".mobi"
         user = models.User.find_or_create(update.message.from_user)
         message = MIMEMultipart()
         message['From'] = os.getenv("SMTP_USERNAME")
         message['To'] = user.emails[0].email
-        subject = update.message.document.file_name
+        subject = file_name
         message['Subject'] = Header(subject, 'utf-8')
         msg_text = MIMEText('This attach is from Ebook-Send-Bot.', 'plain', 'utf-8')
         message.attach(msg_text)
         with open(file_path, 'rb') as f:
-            attachment = MIMEText(f.read(), 'base64', 'utf-8')
-            attachment["Content-Type"] = 'application/epub'
-            attachment.add_header("Content-Disposition", "attachment", filename=('utf-8', '', subject))
-            encoders.encode_base64(attachment)
-            message.attach(attachment)
+            att = MIMEApplication(f.read())
+            att.add_header(
+                'Content-Disposition',
+                'attachment',
+                filename=Header(file_name, "utf-8").encode())
+            message.attach(att)
         return message
 
     def run(self):
