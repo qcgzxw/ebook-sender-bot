@@ -3,8 +3,8 @@ import json
 import logging
 import os
 import traceback
-from email import encoders
 from email.header import Header
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -213,10 +213,11 @@ class TgBot:
         msg_text = MIMEText('This attach is from Ebook-Send-Bot.', 'plain', 'utf-8')
         message.attach(msg_text)
         with open(file_path, 'rb') as f:
-            attachment = MIMEText(f.read(), 'base64', 'utf-8')
-            attachment["Content-Type"] = 'application/epub'
-            attachment.add_header("Content-Disposition", "attachment", filename=('utf-8', '', subject))
-            encoders.encode_base64(attachment)
+            attachment = MIMEApplication(f.read())
+            attachment.add_header(
+                'Content-Disposition',
+                'attachment',
+                filename=Header(subject, "utf-8").encode())
             message.attach(attachment)
         return message
 
