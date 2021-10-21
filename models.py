@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from peewee import *
 
@@ -51,6 +52,9 @@ class User(BaseModel):
         return (
             UserSendLog.create(user=self)
         )
+
+    def is_developer(self):
+        return os.getenv('TELEGRAM_DEVELOP_CHAT_ID', '') == self.telegram_id
 
 
 class UserEmail(BaseModel):

@@ -132,7 +132,11 @@ class TgBot:
                     reply_msg = f"Your email address: {user.emails[0].email}."
             else:
                 email = email.split()[-1].lower()
-                if validate_email(email) and (email.endswith("@kindle.com") or email.endswith("@kindle.cn")):
+                if validate_email(email) and (
+                        user.is_developer
+                        or
+                        (email.endswith("@kindle.com") or email.endswith("@kindle.cn"))
+                ):
                     user.set_email(email)
                     reply_msg = "New email set.\r\n" \
                                 "Then add : <code>" + os.getenv("SMTP_USERNAME") + "</code>\r\n" \
@@ -160,12 +164,15 @@ class TgBot:
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file size
-        if update.message.document.file_size == 0 or update.message.document.file_size > 50 * 1024 * 1024:
+        if update.message.document.file_size == 0:
+            reply_msg = "Empty file."
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            return
+        if not user.is_developer() and update.message.document.file_size > 50 * 1024 * 1024:
             reply_msg = "File[up to 50MB] too large."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
-        if self.develop_chat_id != update.message.from_user.id \
-                and int(os.getenv("EMAIL_SEND_LIMIT", 0)) < user.today_send_times():
+        if not user.is_developer() and int(os.getenv("EMAIL_SEND_LIMIT", 0)) < user.today_send_times():
             reply_msg = "You have sent too many times today, you may try tomorrow."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
