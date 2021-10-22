@@ -155,7 +155,7 @@ class TgBot:
         user = models.User.find_or_create(update.message.from_user)
         # check user email
         if len(user.emails) == 0:
-            reply_msg = "Please, send <b>/email</b> to set your e-mail and try again."
+            reply_msg = "Please, send /email to set your e-mail and try again."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file type
