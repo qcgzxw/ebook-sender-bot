@@ -64,13 +64,9 @@ def convert_book_to_mobi(i: str, o='') -> (bool, str):
     return os.path.exists(o), o
 
 
-def run_command(a):
-    if isinstance(a, list):
-        command = " ".join(a)
-    elif isinstance(a, str):
-        command = a
-    else:
-        return None, None
+def run_command(command):
+    if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Linux' and isinstance(command, list):
+        command = " ".join(command)
     proc = subprocess.Popen(
         command,
         shell=True,
