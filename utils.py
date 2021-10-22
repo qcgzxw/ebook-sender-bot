@@ -19,7 +19,7 @@ def get_book_meta(i: str):
                                           'fb2', 'fbz', 'html', 'htmlz', 'imp', 'lit', 'lrf', 'lrx', 'mobi', 'odt',
                                           'oebzip', 'opf', 'pdb', 'pdf', 'pml', 'pmlz', 'pobi', 'prc', 'rar', 'rb',
                                           'rtf', 'snb', 'tpz', 'txt', 'txtz', 'updb', 'zip']
-    if i.split(".")[-1].lower() not in supported_formats_for_reading_meta:
+    if i.split('.')[-1].lower() not in supported_formats_for_reading_meta:
         return book_meta
     ebook_meta = 'ebook-meta.exe' if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows' else 'ebook-meta'
     if not os.path.exists(i) or ebook_meta == '':
@@ -49,7 +49,7 @@ def get_book_meta(i: str):
 def convert_book_to_mobi(i: str, o='') -> (bool, str):
     supported_formats_for_converting = (
         'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb', 'zip')
-    if os.path.splitext(i)[1].lower() not in supported_formats_for_converting \
+    if i.split('.')[-1].lower() not in supported_formats_for_converting \
             or os.path.splitext(i)[1].lower() == '.mobi':
         return True, i
     if o == '':
@@ -65,11 +65,11 @@ def convert_book_to_mobi(i: str, o='') -> (bool, str):
 
 
 def run_command(command):
-    if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Linux' and isinstance(command, list):
-        command = " ".join(command)
+    # Why does subprocess.Popen() with shell true work differently on linux vs windows.
+    # https://stackoverflow.com/questions/1253122/why-does-subprocess-popen-with-shell-true-work-differently-on-linux-vs-windows
     proc = subprocess.Popen(
         command,
-        shell=True,
+        shell=os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows',
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
