@@ -23,7 +23,7 @@ class TgBot:
     lang = 'en-us'
     logger = None
     allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
-    allow_send_file = allow_file + ('azw3', 'epub', 'azw')
+    allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -159,7 +159,7 @@ class TgBot:
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file type
-        if update.message.document.file_name.split(".")[-1] not in self.allow_send_file:
+        if update.message.document.file_name.split('.')[-1].lower() not in self.allow_send_file:
             reply_msg = "You can only send [." + "|.".join(self.allow_send_file) + "] files to your kindle."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
@@ -197,10 +197,10 @@ class TgBot:
         update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
         if os.path.exists(os.path.dirname(save_path) + os.sep + 'cover.png'):
             update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
-        if update.message.document.file_name.split(".")[-1] not in self.allow_file:
+        if update.message.document.file_name.split('.')[-1] not in self.allow_file:
             # convert ebook to mobi
             utils.convert_book_to_mobi(save_path)
-        if smtp.send_to_kindle(user, self.set_message(update)):
+        if smtp.send_to_kindle(user, self.set_message(update, book_meta)):
             update.message.reply_text("Done.You can check if this file can be found on your kindle!")
         else:
             update.message.reply_text("Sending failed!")
@@ -219,10 +219,10 @@ class TgBot:
         return save_path, is_file_exist
 
     @staticmethod
-    def set_message(update: Update) -> MIMEMultipart:
+    def set_message(update: Update, book_meta) -> MIMEMultipart:
         file_name = update.message.document.file_name
         file_path, _ = TgBot.get_file_save_path(update)
-        if file_name.split('.')[-1] != ".mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
+        if file_name.split('.')[-1].lower() != "mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
             file_path = os.path.splitext(file_path)[0] + ".mobi"
             file_name = os.path.splitext(file_name)[0] + ".mobi"
         user = models.User.find_or_create(update.message.from_user)
@@ -231,7 +231,12 @@ class TgBot:
         message['To'] = user.emails[0].email
         subject = file_name
         message['Subject'] = Header(subject, 'utf-8')
-        msg_text = MIMEText('This attach is from Ebook-Send-Bot.', 'plain', 'utf-8')
+        body = book_meta['Title'] if book_meta['Title'] != "Unknown" else file_name
+        if book_meta['Author(s)'] != "Unknown":
+            body += f"\r\nBy:{book_meta['Author(s)']}"
+        if book_meta['Published'] != "Unknown":
+            body += f"\r\nAt:{book_meta['Published']}"
+        msg_text = MIMEText(body, 'plain', 'utf-8')
         message.attach(msg_text)
         with open(file_path, 'rb') as f:
             att = MIMEApplication(f.read())
