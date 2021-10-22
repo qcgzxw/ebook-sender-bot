@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from peewee import *
 
@@ -48,13 +49,16 @@ class User(BaseModel):
                 )
 
     def log_send_email(self):
-        # todo: kindle_email, file_unique_id
         return (
             UserSendLog.create(user=self)
         )
 
+    def is_developer(self):
+        return os.getenv('TELEGRAM_DEVELOP_CHAT_ID', '') == self.telegram_id
+
 
 class UserEmail(BaseModel):
+    # todo: kindle_email, file_unique_id
     user = ForeignKeyField(User, backref='emails')
     email = CharField(max_length=100)
 
