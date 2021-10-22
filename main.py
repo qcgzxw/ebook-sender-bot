@@ -1,4 +1,5 @@
 import os
+import platform
 
 from dotenv import load_dotenv
 from playhouse.db_url import connect
@@ -23,6 +24,7 @@ def run_tg_bot() -> None:
 
 def main() -> None:
     load_dotenv()
+    os.environ["SYSTEM_PLATFORM"] = platform.system()
     register_db()
     run_tg_bot()
 

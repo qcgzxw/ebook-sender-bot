@@ -23,7 +23,7 @@ class TgBot:
     lang = 'en-us'
     logger = None
     allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
-    allow_send_file = allow_file + ('azw3', 'epub', 'azw')
+    allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -159,7 +159,7 @@ class TgBot:
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
         # check file type
-        if update.message.document.file_name.split(".")[-1] not in self.allow_send_file:
+        if update.message.document.file_name.split(".")[-1].lower() not in self.allow_send_file:
             reply_msg = "You can only send [." + "|.".join(self.allow_send_file) + "] files to your kindle."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
             return
@@ -222,7 +222,7 @@ class TgBot:
     def set_message(update: Update) -> MIMEMultipart:
         file_name = update.message.document.file_name
         file_path, _ = TgBot.get_file_save_path(update)
-        if file_name.split('.')[-1] != ".mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
+        if file_name.split('.')[-1].lower() != ".mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
             file_path = os.path.splitext(file_path)[0] + ".mobi"
             file_name = os.path.splitext(file_name)[0] + ".mobi"
         user = models.User.find_or_create(update.message.from_user)
