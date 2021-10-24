@@ -32,7 +32,7 @@ class TgBot:
             logging.basicConfig(level=logging.DEBUG,
                                 format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         else:
-            logging.basicConfig(level=logging.DEBUG,
+            logging.basicConfig(level=logging.ERROR,
                                 format='%(asctime)s - %(message)s - %(levelname)s - %(message)s',
                                 handlers=[logging.FileHandler(filename='default.log', mode='a', encoding='utf-8')],
                                 )
