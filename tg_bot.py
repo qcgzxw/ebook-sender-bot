@@ -24,6 +24,7 @@ class TgBot:
     logger = None
     allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
     allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit')
+    allow_email_domain = ('kindle.com', 'kindle.cn', )
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -46,9 +47,7 @@ class TgBot:
         if update is not None:
             update.message.reply_text(
                 f"<b>Error</b>:\r\n<pre> {context.error} </pre>\r\n\r\n"
-                + "<b>Contact us at</b>:\r\n"
-                + "<a href='https://github.com/qcgzxw/ebook-sender-bot/issues'>https://github.com/qcgzxw/ebook-sender"
-                  "-bot/issues</a> ", parse_mode=ParseMode.HTML)
+                + "<b>Contact me</b>: @qcgzxw", parse_mode=ParseMode.HTML)
         if self.develop_chat_id is not None:
             # traceback.format_exception returns the usual python message about an exception, but as a
             # list of strings rather than a single string, so we have to join them together.
@@ -72,11 +71,6 @@ class TgBot:
         update.message.reply_text(
             "<b>Github: </b>\r\n"
             + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>"
-            + "\r\n"
-            + "\r\n"
-            + "<b>Issue: </b>\r\n"
-            + "<a href='https://github.com/qcgzxw/ebook-sender-bot/issues'>https://github.com/qcgzxw/ebook-sender-bot"
-              "/issues</a> "
             , parse_mode=ParseMode.HTML
         )
 
@@ -133,9 +127,9 @@ class TgBot:
             else:
                 email = email.split()[-1].lower()
                 if validate_email(email) and (
-                        user.is_developer
-                        or
-                        (email.endswith("@kindle.com") or email.endswith("@kindle.cn"))
+                    user.is_developer()
+                    or
+                    email.split('@')[-1] in self.allow_email_domain
                 ):
                     user.set_email(email)
                     reply_msg = "New email set.\r\n" \

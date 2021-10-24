@@ -17,7 +17,7 @@ def register_db() -> None:
 
 def run_tg_bot() -> None:
     bot_token = os.getenv('TELEGRAM_TOKEN')
-    develop_chat_id = os.getenv('TELEGRAM_DEVELOP_CHAT_ID')
+    develop_chat_id = os.getenv('TELEGRAM_DEVELOP_CHAT_ID', '')
     bot = TgBot(bot_token, develop_chat_id)
     bot.run()
 
