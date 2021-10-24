@@ -10,7 +10,7 @@ from tg_bot import TgBot
 
 def register_db() -> None:
     # more information: http://docs.peewee-orm.com/en/latest/peewee/database.html#connecting-using-a-database-url
-    database = connect(os.environ.get('DATABASE') or 'sqlite:///database.db')
+    database = connect(os.environ.get('DATABASE', 'sqlite:///database.db'))
     models.database_proxy.initialize(database)
     database.create_tables([models.User, models.UserEmail, models.UserSendLog])
 
