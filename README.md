@@ -9,7 +9,8 @@ Send E-Book to kindle with Telegram Bot.
 ```shell
 pip install -r requirments.txt
 ```
-3. run main.py
+3. [install calibre](https://calibre-ebook.com/download)
+4. run main.py
 ```shell
 python main.py
 ```
@@ -17,14 +18,15 @@ python main.py
 ## env
 ```dotenv
 # Develop mode: printf runtime log to console 
-DEV=True
+DEV=False
 
 # Database link: 
-# SQLite: sqlite:///database.db
-# Mysql: mysql://root:root@192.168.50.121:3306/tg_bot_kindle
-# more databast support:
-#    https://docs.peewee-orm.com/en/latest/peewee/database.html#connecting-using-a-database-url
-DATABASE=mysql://root:root@192.168.50.121:3306/tg_bot_kindle
+#
+# for example:
+#     SQLite[recommend]: sqlite:///database.db
+#     Mysql[recommend]: mysql+pool://username:passwordroot@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
+#     Mysql: connection pool: mysql://username:password@127.0.0.1:3306/ebook_sender_bot
+DATABASE=mysql+pool://root:root@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
 
 # SMTP account
 SMTP_HOST=smtp.qq.com
@@ -40,19 +42,6 @@ TELEGRAM_DEVELOP_CHAT_ID=
 
 # Set a daily limit of e-mailing per user
 EMAIL_SEND_LIMIT=10
-
-# first, install calibre
-# secend, open 'cmd' in windows or 'terminal' in linux,
-# type 'ebook-meta.exe' in windows or 'ebook-meta' in linux and check this command if exists
-# FYI:
-#    Windows:ebook-meta.exe
-#    Linux:ebook-meta
-SHELL_CALIBRE_EBOOK_META=ebook-meta.exe
-
-# FYI:
-#    Windows:ebook-convert.exe
-#    Linux:ebook-convert
-SHELL_CALIBRE_EBOOK_CONVERT=ebook-convert.exe
 ```
 
 ## Preview
