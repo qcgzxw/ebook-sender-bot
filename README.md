@@ -23,8 +23,8 @@ DEV=False
 # Database link: 
 #
 # for example:
-#     SQLite[recommend]: sqlite:///database.db
-#     Mysql[recommend]: mysql+pool://username:passwordroot@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
+#     SQLite[recommended]: sqlite:///database.db
+#     Mysql[recommended]: mysql+pool://username:passwordroot@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
 #     Mysql: connection pool: mysql://username:password@127.0.0.1:3306/ebook_sender_bot
 DATABASE=mysql+pool://root:root@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
 
