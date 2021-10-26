@@ -77,8 +77,8 @@ class TgBot:
     def command_start(self, update: Update, context: CallbackContext) -> None:
         models.User.find_or_create(update.message.from_user)
         update.message.reply_text(
-            "First, set your <b>Send-to-Kindle e-mail</b> by send command\r\n"
-            "<code>/email send-to-kindle-email@kindle.com</code>.\r\n"
+            "First, set your <b>Send-to-Kindle e-mail</b> by sending command\r\n"
+            "<code>/email yourkindleemailaddress@kindle.com</code>.\r\n"
             "You can get more send /help"
             , parse_mode=ParseMode.HTML
         )
