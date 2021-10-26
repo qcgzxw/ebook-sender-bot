@@ -47,7 +47,7 @@ class TgBot:
         if update is not None:
             update.message.reply_text(
                 f"<b>Error</b>:\r\n<pre> {context.error} </pre>\r\n\r\n"
-                + "<b>Contact me</b>: @qcgzxw", parse_mode=ParseMode.HTML)
+                + "<b>Contact me</b>: @qcgzxw", parse_mode=ParseMode.HTML, disable_web_page_preview=True)
         if self.develop_chat_id is not None:
             # traceback.format_exception returns the usual python message about an exception, but as a
             # list of strings rather than a single string, so we have to join them together.
@@ -65,13 +65,19 @@ class TgBot:
                 f'<pre>context.user_data = {html.escape(str(context.user_data))}</pre>\n\n'
                 f'<pre>{html.escape(tb_string)}</pre>'
             )
-            context.bot.send_message(chat_id=self.develop_chat_id, text=message, parse_mode=ParseMode.HTML)
+            context.bot.send_message(
+                chat_id=self.develop_chat_id,
+                text=message,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True
+            )
 
     def command_github(self, update: Update, context: CallbackContext) -> None:
         update.message.reply_text(
             "<b>Github: </b>\r\n"
-            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>"
-            , parse_mode=ParseMode.HTML
+            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>",
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True
         )
 
     def command_start(self, update: Update, context: CallbackContext) -> None:
@@ -79,8 +85,9 @@ class TgBot:
         update.message.reply_text(
             "First, set your <b>Send-to-Kindle e-mail</b> by sending command\r\n"
             "<code>/email yourkindleemailaddress@kindle.com</code>.\r\n"
-            "You can get more send /help"
-            , parse_mode=ParseMode.HTML
+            "You can get more send /help",
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True
         )
 
     def command_help(self, update: Update, context: CallbackContext) -> None:
@@ -107,8 +114,9 @@ class TgBot:
             + "\r\n"
             + "\r\n"
             + "<b>Github: </b>\r\n"
-            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>"
-            , parse_mode=ParseMode.HTML
+            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>",
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True
         )
 
     def command_email(self, update: Update, context: CallbackContext) -> None:
@@ -142,7 +150,7 @@ class TgBot:
                                   "=GX9XLEVV8G4DB28H'>Add an Email Address to Receive Documents in Your Kindle " \
                                   "Library</a>"
 
-        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     def document(self, update: Update, context: CallbackContext) -> None:
         """Handle document type message"""
@@ -150,28 +158,28 @@ class TgBot:
         # check user email
         if len(user.emails) == 0:
             reply_msg = "Please, send /email to set your e-mail and try again."
-            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
         # check file type
         if update.message.document.file_name.split('.')[-1].lower() not in self.allow_send_file:
             reply_msg = "You can only send [." + "|.".join(self.allow_send_file) + "] files to your kindle."
-            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
         # check file size
         if update.message.document.file_size == 0:
             reply_msg = "Empty file."
-            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
         if not user.is_developer() and update.message.document.file_size > 50 * 1024 * 1024:
             reply_msg = "File[up to 50MB] too large."
-            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
         if not user.is_developer() and int(os.getenv("EMAIL_SEND_LIMIT", 0)) < user.today_send_times():
             reply_msg = "You have sent too many times today, you may try tomorrow."
-            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+            update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
         reply_msg = "Downloading..."
-        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
         # download file
         save_path, exist = self.get_file_save_path(update)
         if not exist:
@@ -179,7 +187,7 @@ class TgBot:
                 context.bot.get_file(update.message.document).download(out=f)
             if not os.path.exists(save_path):
                 reply_msg = "Download failed."
-                update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+                update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
                 return
         book_meta = utils.get_book_meta(save_path)
         reply_msg = ""
@@ -188,7 +196,7 @@ class TgBot:
                 reply_msg += f"<b>{key}:</b> <pre>{book_meta[key]}</pre>\r\n\r\n"
         if reply_msg == "":
             reply_msg = "sending..."
-        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
+        update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
         if os.path.exists(os.path.dirname(save_path) + os.sep + 'cover.png'):
             update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
         if update.message.document.file_name.split('.')[-1] not in self.allow_file:
