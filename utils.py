@@ -1,8 +1,10 @@
 import os
+import re
 import subprocess
 
 
 def get_book_meta(i: str):
+    """Get ebook information"""
     book_meta = {
         'Title': 'Unknown',
         'Author(s)': 'Unknown',
@@ -24,7 +26,7 @@ def get_book_meta(i: str):
     ebook_meta = 'ebook-meta.exe' if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows' else 'ebook-meta'
     if not os.path.exists(i) or ebook_meta == '':
         return book_meta
-    result, _ = run_command([ebook_meta, i, '--get-cover', os.path.dirname(i) + os.sep + 'cover.png'])
+    result, _ = __run_command([ebook_meta, i, '--get-cover', os.path.dirname(i) + os.sep + 'cover.png'])
     if len(result.splitlines()) <= 2:
         return book_meta
 
@@ -38,7 +40,7 @@ def get_book_meta(i: str):
             first_part = line.split(':')[0]
             second_part = line[len(first_part) + 1:]
             if first_part.strip() == key:
-                book_meta[key] = second_part.strip()
+                book_meta[key] = remove_html_tags(second_part.strip())
 
     # line="Published           : 2010-01-15T06:28:29.127000+00:00"
     if book_meta['Published'] != 'Unknown':
@@ -47,6 +49,7 @@ def get_book_meta(i: str):
 
 
 def convert_book_to_mobi(i: str, o='') -> (bool, str):
+    """Convert ebook to mobi format"""
     supported_formats_for_converting = (
         'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb', 'zip')
     if i.split('.')[-1].lower() not in supported_formats_for_converting \
@@ -60,11 +63,18 @@ def convert_book_to_mobi(i: str, o='') -> (bool, str):
     if os.path.exists(o):
         return True, o
 
-    run_command([ebook_convert, i, o])
+    __run_command([ebook_convert, i, o])
     return os.path.exists(o), o
 
 
-def run_command(command):
+def remove_html_tags(text):
+    """Remove html tags from a string"""
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
+
+def __run_command(command):
+    """Run system command"""
     # Why does subprocess.Popen() with shell true work differently on linux vs windows.
     # https://stackoverflow.com/questions/1253122/why-does-subprocess-popen-with-shell-true-work-differently-on-linux-vs-windows
     proc = subprocess.Popen(
