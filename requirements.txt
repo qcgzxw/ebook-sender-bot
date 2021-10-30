@@ -1,4 +1,3 @@
-python-dotenv~=0.19.1
 peewee~=3.14.4
 python-telegram-bot~=13.7
 validate_email~=1.3

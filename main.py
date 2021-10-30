@@ -1,30 +1,26 @@
-import os
-import platform
-
-from dotenv import load_dotenv
 from playhouse.db_url import connect
 
-import models
-from tg_bot import TgBot
+from config.configs import default_config, telegram_config
+from model.base import database_proxy
+from model.user import User, UserEmail, UserSendLog
+from tg_bot.tg_bot import TgBot
 
 
 def register_db() -> None:
     # more information: http://docs.peewee-orm.com/en/latest/peewee/database.html#connecting-using-a-database-url
-    database = connect(os.environ.get('DATABASE', 'sqlite:///database.db'))
-    models.database_proxy.initialize(database)
-    database.create_tables([models.User, models.UserEmail, models.UserSendLog])
+    database = connect(default_config('database'))
+    database_proxy.initialize(database)
+    database.create_tables([User, UserEmail, UserSendLog])
 
 
 def run_tg_bot() -> None:
-    bot_token = os.getenv('TELEGRAM_TOKEN')
-    develop_chat_id = os.getenv('TELEGRAM_DEVELOP_CHAT_ID', '')
+    bot_token = telegram_config('bot_token')
+    develop_chat_id = telegram_config('developer_chat_id')
     bot = TgBot(bot_token, develop_chat_id)
     bot.run()
 
 
 def main() -> None:
-    load_dotenv()
-    os.environ["SYSTEM_PLATFORM"] = platform.system()
     register_db()
     run_tg_bot()
 
