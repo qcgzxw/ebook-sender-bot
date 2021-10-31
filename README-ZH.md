@@ -45,7 +45,7 @@ pip install -r requirments.txt
 python main.py
 ```
 
-## config.ini
+### config.ini
 ```ini
 [default]
 # 模式: [dev] dev开发模式下日志直接控制台输出 
