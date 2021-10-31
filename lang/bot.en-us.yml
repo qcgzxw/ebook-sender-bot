@@ -35,6 +35,8 @@ en-us:
     Send:
     <code>/email send-to-kindle-email@kindle.com</code>
     to set your kindle email.
+  emailInvalidNotification: |
+    Please, check your e-mail and try again.
   emailNotification: |
     Your email address: %{email}.
   emailSetNotification: |

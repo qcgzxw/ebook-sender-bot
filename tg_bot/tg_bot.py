@@ -94,6 +94,8 @@ class TgBot:
             ):
                 user.set_email(email)
                 self.reply.send_msg(update, 'emailSetNotification', email=smtp_config('username'))
+            else:
+                self.reply.send_msg(update, 'emailInvalidNotification')
 
     def document(self, update: Update, context: CallbackContext) -> None:
         """Handle document type message"""
