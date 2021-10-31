@@ -12,9 +12,9 @@ from telegram import Update, ParseMode
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 from validate_email import validate_email
 
-import models
-import smtp
-import utils
+from config.configs import smtp_config, default_config
+from model.user import User
+from utils import util, smtp
 
 
 class TgBot:
@@ -29,7 +29,7 @@ class TgBot:
     def __init__(self, token: str, chat_id: str):
         self.token = token
         self.develop_chat_id = chat_id
-        if os.getenv("DEV", "False") == "True":
+        if default_config('mode') == 'dev':
             logging.basicConfig(level=logging.DEBUG,
                                 format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         else:
@@ -81,7 +81,7 @@ class TgBot:
         )
 
     def command_start(self, update: Update, context: CallbackContext) -> None:
-        models.User.find_or_create(update.message.from_user)
+        User.find_or_create(update.message.from_user)
         update.message.reply_text(
             "First, set your <b>Send-to-Kindle e-mail</b> by sending command\r\n"
             "<code>/email yourkindleemailaddress@kindle.com</code>.\r\n"
@@ -109,7 +109,7 @@ class TgBot:
             + "You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>"
             + "Preferences</a>.\r\n"
             + "Then add this bot's email: <code>"
-            + os.getenv("SMTP_USERNAME")
+            + smtp_config('username')
             + "</code>\r\n to the list otherwise you'll not be able to use this bot."
             + "\r\n"
             + "\r\n"
@@ -123,7 +123,7 @@ class TgBot:
         """Set kindle email"""
         reply_msg = "Please, check your e-mail and try again."
         email = update.message.text
-        user = models.User.find_or_create(update.message.from_user)
+        user = User.find_or_create(update.message.from_user)
         if email:
             if len(email.split()) == 1:
                 if len(user.emails) == 0:
@@ -141,7 +141,7 @@ class TgBot:
                 ):
                     user.set_email(email)
                     reply_msg = "New email set.\r\n" \
-                                "Then add : <code>" + os.getenv("SMTP_USERNAME") + "</code>\r\n" \
+                                "Then add : <code>" + smtp_config('username') + "</code>\r\n" \
                                 + "to the <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment" \
                                   "'>Approved Personal Document Email List</a>"\
                                 + "\r\n" \
@@ -154,7 +154,7 @@ class TgBot:
 
     def document(self, update: Update, context: CallbackContext) -> None:
         """Handle document type message"""
-        user = models.User.find_or_create(update.message.from_user)
+        user = User.find_or_create(update.message.from_user)
         # check user email
         if len(user.emails) == 0:
             reply_msg = "Please, send /email to set your e-mail and try again."
@@ -174,7 +174,7 @@ class TgBot:
             reply_msg = "File[up to 50MB] too large."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
-        if not user.is_developer() and int(os.getenv("EMAIL_SEND_LIMIT", 0)) < user.today_send_times():
+        if not user.is_developer() and int(default_config('email_send_limit')) < user.today_send_times():
             reply_msg = "You have sent too many times today, you may try tomorrow."
             update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
             return
@@ -189,7 +189,7 @@ class TgBot:
                 reply_msg = "Download failed."
                 update.message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
                 return
-        book_meta = utils.get_book_meta(save_path)
+        book_meta = util.get_book_meta(save_path)
         reply_msg = ""
         for key in book_meta.keys():
             if book_meta[key] != 'Unknown':
@@ -201,8 +201,8 @@ class TgBot:
             update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
         if update.message.document.file_name.split('.')[-1] not in self.allow_file:
             # convert ebook to mobi
-            utils.convert_book_to_mobi(save_path)
-        if smtp.send_to_kindle(user, self.set_message(update, book_meta)):
+            util.convert_book_to_mobi(save_path)
+        if smtp.send_to_kindle(user.log_send_email(update.message.document.file_unique_id), self.set_message(update, book_meta)):
             update.message.reply_text("Done.You can check if this file can be found on your kindle!")
         else:
             update.message.reply_text("Sending failed!")
@@ -227,9 +227,9 @@ class TgBot:
         if file_name.split('.')[-1].lower() != "mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
             file_path = os.path.splitext(file_path)[0] + ".mobi"
             file_name = os.path.splitext(file_name)[0] + ".mobi"
-        user = models.User.find_or_create(update.message.from_user)
+        user = User.find_or_create(update.message.from_user)
         message = MIMEMultipart()
-        message['From'] = os.getenv("SMTP_USERNAME")
+        message['From'] = smtp_config('username')
         message['To'] = user.emails[0].email
         subject = file_name
         message['Subject'] = Header(subject, 'utf-8')
