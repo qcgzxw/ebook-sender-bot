@@ -1,0 +1,64 @@
+en-us:
+  error: |
+    <b>Error</b>:
+    <pre> %{err_msg} </pre>
+    <b>Contact me</b>: @qcgzxw
+  developError: |
+    An exception was raised while handling an update
+    <pre>update = %{update}</pre>
+    <pre>context.chat_data = %{chat_data}</pre>
+    <pre>context.user_data = %{user_data}</pre>
+    <pre>%{err_msg}</pre>
+  github: |
+    <b>Github: </b>
+    <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  start: |
+    First, set your <b>Send-to-Kindle e-mail</b> by sending command
+    <code>/email yourkindleemailaddress@kindle.com</code>.
+    You can get more send /help
+  help: |
+    <b>What does this bot do?</b>
+    This bot is able to send documents to your Kindle by e-mailing the documents to your <b>Send-to-Kindle e-mail</b> address.
+
+    <b>Where is my Kindle's e-mail?</b>
+    Log into your Amazon account. Visit <i>Manage Your Content and Devices</i> page at <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
+    The e-mail address will end with <code>@kindle.com</code>.
+
+    <b>How to set the <i>Approved Personal Document E-mail</i>?</b>
+    You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
+    Then add this bot's email: <code>%{email}</code>
+    to the list otherwise you'll not be able to use this bot.
+
+    <b>Github: </b>
+    <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  emailErrorNotification: |
+    Send:
+    <code>/email send-to-kindle-email@kindle.com</code>
+    to set your kindle email.
+  emailNotification: |
+    Your email address: %{email}.
+  emailSetNotification: |
+    New email set.
+
+    Then add : <code> %{email} </code>
+    to the <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Approved Personal Document Email List</a>
+
+    <a href='https://www.amazon.com/gp/help/customer/display.html?nodeId=GX9XLEVV8G4DB28H'>Add an Email Address to Receive Documents in Your Kindle Library</a>
+  documentEmailError:
+    Please, send /email to set your e-mail and try again.
+  documentFileTypeError:
+    You can only send [%{types}] files to your kindle.
+  documentFileSizeError:
+    File[up to 50MB] too large.
+  documentFileEmptyError:
+    Empty file.
+  documentLimitError:
+    You have sent too many times today, you may try tomorrow.
+  downloading:
+    Downloading...
+  downloadFailed:
+    Download failed!
+  done:
+    Done.You can check if this file can be found on your kindle!
+  sendFailed:
+    Sending failed!

@@ -3,7 +3,7 @@ from playhouse.db_url import connect
 from config.configs import default_config, telegram_config
 from model.base import database_proxy
 from model.user import User, UserEmail, UserSendLog
-from tg_bot.tg_bot import TgBot
+from tg_bot.tg_bot import TgBot, MessageReply
 
 
 def register_db() -> None:
