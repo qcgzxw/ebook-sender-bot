@@ -42,7 +42,6 @@ zh-hans:
     发送:
     <code>/email send-to-kindle-email@kindle.com</code>
     来设置你的kindle邮箱
-
   emailInvalidNotification: |
     邮箱无效，请检查该邮箱是否为有效的kindle邮箱
   emailNotification: |
