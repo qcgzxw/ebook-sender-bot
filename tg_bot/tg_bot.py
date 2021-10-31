@@ -75,7 +75,7 @@ class TgBot:
     def command_github(self, update: Update, context: CallbackContext) -> None:
         update.message.reply_text(
             "<b>Github: </b>\r\n"
-            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-tg_bot</a>",
+            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>",
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
         )
@@ -94,8 +94,8 @@ class TgBot:
         # todo: i18n
         # user_lang = (update.message.from_user.language_code or "en-us").lower()
         update.message.reply_text(
-            "<b>What does this tg_bot do?</b>\r\n"
-            + "This tg_bot is able to send documents to your Kindle by e-mailing the documents to your <b>Send-to-Kindle "
+            "<b>What does this bot do?</b>\r\n"
+            + "This bot is able to send documents to your Kindle by e-mailing the documents to your <b>Send-to-Kindle "
             + "e-mail</b> address."
             + "\r\n"
             + "\r\n"
@@ -108,13 +108,13 @@ class TgBot:
             + "<b>How to set the <i>Approved Personal Document E-mail</i>?</b>\r\n"
             + "You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>"
             + "Preferences</a>.\r\n"
-            + "Then add this tg_bot's email: <code>"
+            + "Then add this bot's email: <code>"
             + smtp_config('username')
-            + "</code>\r\n to the list otherwise you'll not be able to use this tg_bot."
+            + "</code>\r\n to the list otherwise you'll not be able to use this bot."
             + "\r\n"
             + "\r\n"
             + "<b>Github: </b>\r\n"
-            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-tg_bot</a>",
+            + "<a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>",
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True
         )
