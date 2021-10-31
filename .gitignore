@@ -103,7 +103,7 @@ celerybeat.pid
 
 # Environments
 .env
-.ini
+*.ini
 .venv
 env/
 venv/
@@ -136,4 +136,4 @@ dmypy.json
 *.db*
 
 # project
-storage
+storage/
