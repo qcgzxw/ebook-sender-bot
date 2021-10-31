@@ -1,9 +1,39 @@
 # ebook-sender-bot
 Send E-Book to kindle with Telegram Bot.
 
-[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
+Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 
 ## Usage
+
+1. Open bot link:[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
+2. Send */email your-kindle-email@kindle.com* to set your kindle email address.
+3. Add bot email to your [Approved Personal Document E-mail](https://www.amazon.com/hz/mycd/myx#/home/settings/payment).
+4. Send a supported document to this bot and check your kindle.
+
+## Support document format
+### send directly
+- doc 
+- docx 
+- rtf 
+- html 
+- htm 
+- txt 
+- zip 
+- mobi 
+- pdf
+### convert to mobi and send
+- azw 
+- azw1 
+- azw3 
+- azw4 
+- fb2 
+- epub 
+- lrf 
+- kfx 
+- pdb 
+- lit 
+
+## Setup
 1. copy *config.ini.example* to *config.ini*
 2. install requirements
 ```shell
@@ -15,7 +45,7 @@ pip install -r requirments.txt
 python main.py
 ```
 
-## config.ini
+### config.ini
 ```ini
 [default]
 # mode: [dev] printf runtime log to console 
@@ -51,7 +81,7 @@ developer_chat_id=your_telegram_chat_id
 - [x] document information
 - [x] covert books with calibre
 - [x] use configParse instead of os.getenv()
-- [ ] i18n
-- [ ] telegram MessageReply class
+- [x] i18n
+- [x] telegram MessageReply class
 - [ ] test case
 - [ ] queue
