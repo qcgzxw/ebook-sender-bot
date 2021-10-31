@@ -1,17 +1,9 @@
 import datetime
-import os
 
 from peewee import *
 
-database_proxy = DatabaseProxy()
-
-
-class BaseModel(Model):
-    def __del__(self):
-        database_proxy.close()
-
-    class Meta:
-        database = database_proxy
+from config.configs import telegram_config
+from model.base import BaseModel
 
 
 class User(BaseModel):
@@ -47,26 +39,39 @@ class User(BaseModel):
         return (User
                 .select()
                 .join(UserSendLog)
-                .where((UserSendLog.send_time >= datetime.date.today()) & (User.id == self.id))
+                .where(
+                    (UserSendLog.send_time >= datetime.date.today())
+                    & (User.id == self.id)
+                    & (UserSendLog.status == 1)
+                )
                 .count()
                 )
 
-    def log_send_email(self):
+    def log_send_email(self, file_unique_id: str):
         return (
-            UserSendLog.create(user=self)
+            UserSendLog.create(user=self, email=self.emails[0].email, file_unique_id=file_unique_id)
         )
 
     def is_developer(self):
-        return os.getenv('TELEGRAM_DEVELOP_CHAT_ID', '') == self.telegram_id
+        return telegram_config('developer_chat_id') == self.telegram_id
 
 
 class UserEmail(BaseModel):
-    # todo: kindle_email, file_unique_id
     user = ForeignKeyField(User, backref='emails')
     email = CharField(max_length=100)
 
 
 class UserSendLog(BaseModel):
-    # todo: add columns: email file_unique_id
     user = ForeignKeyField(User, backref='user_send_logs')
+    email = CharField(max_length=100)
+    file_unique_id = CharField(max_length=200)
+    status = SmallIntegerField(default=0)
     send_time = DateTimeField(default=datetime.datetime.now)
+
+    def send_succeed(self):
+        self.status = 1
+        return self.save()
+
+    def send_failed(self):
+        self.status = 2
+        return self.save()

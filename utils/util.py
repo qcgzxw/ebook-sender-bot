@@ -2,6 +2,8 @@ import os
 import re
 import subprocess
 
+from config.configs import is_windows
+
 
 def get_book_meta(i: str):
     """Get ebook information"""
@@ -23,7 +25,7 @@ def get_book_meta(i: str):
                                           'rtf', 'snb', 'tpz', 'txt', 'txtz', 'updb', 'zip']
     if i.split('.')[-1].lower() not in supported_formats_for_reading_meta:
         return book_meta
-    ebook_meta = 'ebook-meta.exe' if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows' else 'ebook-meta'
+    ebook_meta = 'ebook-meta.exe' if is_windows() else 'ebook-meta'
     if not os.path.exists(i) or ebook_meta == '':
         return book_meta
     result, _ = __run_command([ebook_meta, i, '--get-cover', os.path.dirname(i) + os.sep + 'cover.png'])
@@ -57,7 +59,7 @@ def convert_book_to_mobi(i: str, o='') -> (bool, str):
         return True, i
     if o == '':
         o = os.path.splitext(i)[0] + '.mobi'
-    ebook_convert = 'ebook-convert.exe' if os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows' else 'ebook-convert'
+    ebook_convert = 'ebook-convert.exe' if is_windows() else 'ebook-convert'
     if not os.path.exists(i) or ebook_convert == '':
         return False, ''
     if os.path.exists(o):
@@ -79,7 +81,7 @@ def __run_command(command):
     # https://stackoverflow.com/questions/1253122/why-does-subprocess-popen-with-shell-true-work-differently-on-linux-vs-windows
     proc = subprocess.Popen(
         command,
-        shell=os.getenv('SYSTEM_PLATFORM', 'Windows') == 'Windows',
+        shell=is_windows(),
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
