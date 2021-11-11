@@ -59,7 +59,7 @@ class TgBot:
             self.reply.send_msg(
                 update,
                 'developError',
-                update=html.escape(json.dumps(update_str, indent=2, ensure_ascii=False)),
+                update_data=html.escape(json.dumps(update_str, indent=2, ensure_ascii=False)),
                 chat_data=html.escape(str(context.chat_data)),
                 user_data=html.escape(str(context.user_data)),
                 err_msg=html.escape(tb_string),
