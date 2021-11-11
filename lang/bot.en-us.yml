@@ -5,7 +5,7 @@ en-us:
     <b>Contact me</b>: @qcgzxw
   developError: |
     An exception was raised while handling an update
-    <pre>update = %{update}</pre>
+    <pre>update = %{update_data}</pre>
     <pre>context.chat_data = %{chat_data}</pre>
     <pre>context.user_data = %{user_data}</pre>
     <pre>%{err_msg}</pre>
