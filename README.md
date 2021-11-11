@@ -1,3 +1,5 @@
+English | [简体中文](README-ZH.md)
+
 # ebook-sender-bot
 Send E-Book to kindle with Telegram Bot.
 

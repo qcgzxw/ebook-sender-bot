@@ -1,3 +1,5 @@
+[English](README.md) | 简体中文
+
 # ebook-sender-bot
 一个能将电子书发送给你Kinlde的telegram机器人
 
