@@ -1,14 +1,11 @@
-from playhouse.db_url import connect
-
-from config.configs import default_config, telegram_config
+from config.configs import telegram_config, database_config
 from model.base import database_proxy
 from model.user import User, UserEmail, UserSendLog
 from tg_bot.tg_bot import TgBot
 
 
 def register_db() -> None:
-    # more information: http://docs.peewee-orm.com/en/latest/peewee/database.html#connecting-using-a-database-url
-    database = connect(default_config('database'))
+    database = database_config()
     database_proxy.initialize(database)
     database.create_tables([User, UserEmail, UserSendLog])
 
