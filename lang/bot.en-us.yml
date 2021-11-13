@@ -51,7 +51,7 @@ en-us:
   documentFileTypeError:
     You can only send [%{types}] files to your kindle.
   documentFileSizeError:
-    File[up to 50MB] too large.
+    File[up to 20MB] too large.
   documentFileEmptyError:
     Empty file.
   documentLimitError:

@@ -58,7 +58,7 @@ zh-hans:
   documentFileTypeError:
     kindle只允许接受 [%{types}] 类型的文件
   documentFileSizeError:
-    文件[最大支持50MB]太大，无法发送
+    文件[最大支持20MB]太大，无法发送
   documentFileEmptyError:
     文件为空
   documentLimitError:

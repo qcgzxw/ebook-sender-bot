@@ -112,7 +112,7 @@ class TgBot:
         if update.message.document.file_size == 0:
             self.reply.send_msg(update, 'documentFileEmptyError')
             return
-        if not user.is_developer() and update.message.document.file_size > 50 * 1024 * 1024:
+        if not user.is_developer() and update.message.document.file_size > 20 * 1024 * 1024:
             self.reply.send_msg(update, 'documentFileSizeError')
             return
         if not user.is_developer() and int(default_config('email_send_limit')) < user.today_send_times():
