@@ -85,6 +85,7 @@ developer_chat_id=your_telegram_chat_id
 - [x] use configParse instead of os.getenv()
 - [x] i18n
 - [x] telegram MessageReply class
+- [ ] unique email
 - [ ] admin command
-- [ ] test case
 - [ ] queue
+- [ ] test case
