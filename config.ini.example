@@ -1,6 +1,7 @@
 [default]
 # mode: [dev] printf runtime log to console
 mode=dev
+email_send_limit=10
 # mysql|sqlite|postgresql
 database=sqlite
 

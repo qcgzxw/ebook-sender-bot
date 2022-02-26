@@ -33,18 +33,42 @@
 - lrf 
 - kfx 
 - pdb 
-- lit 
+- lit
+
+---
 
 ## 安装
+### 【推荐】docker-compose
+[docker-compose.yml](docker-compose.yml)
+```shell
+docker-compose up -d
+```
+
+### 【推荐】docker
+```shell
+docker run -d \
+    --restart unless-stopped \
+    --name ebook-sender-bot \
+    -e TZ=Asia/Shanghai \
+    -e SMTP_HOST={YOUR_SMTP_HOST} \
+    -e SMTP_PORT={YOUR_SMTP_PORT} \
+    -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
+    -e SMTP_PASSWORD={YOUR_SMTP_PASSWORD} \
+    -e BOT_TOKEN={YOUR_BOT_TOKEN} \
+    -e DEVELOPER_CHAT_ID={YOUR_TELEGRAM_CHAT_ID} \
+    qcgzxw/ebook-sender-bot
+```
+
+### 源代码安装(便于开发调试)
 1. 复制 *config.ini.example* 到 *config.ini* 并修改你的配置
 2. pip安装环境
 ```shell
-pip install -r requirments.txt
+pip3 install -r requirments.txt
 ```
 3. [安装calibre](https://calibre-ebook.com/download)
 4. 运行
 ```shell
-python main.py
+python3 main.py
 ```
 
 ### config.ini
@@ -54,14 +78,31 @@ python main.py
 mode = dev
 # 设置每个用户每天最多使用的次数
 email_send_limit = 10
-# 例如:
-#     SQLite[推荐]: sqlite:///database.db
-#     Mysql[推荐]: mysql+pool://username:passwordroot@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
-#     Mysql: mysql://username:password@127.0.0.1:3306/ebook_sender_bot
-database = mysql+pool://root:root@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
+# database: sqlite,mysql,postgresql
+database=sqlite
+
+# 当database为sqlite时
+[sqlite]
+name=ebook-sender-bot
+
+# 当database为mysql时
+[mysql]
+name=ebook-sender-bot
+host=192.168.1.1
+port=3306
+user=root
+password=root
+
+# 当database为postgresql时
+[postgresql]
+name=ebook-sender-bot
+host=192.168.1.1
+port=5432
+user=root
+password=root
 
 [smtp]
-host=smtp.gmail.com
+host=smtp.qq.com
 port=465
 username=your_email_address
 password=your_email_account_password
@@ -78,12 +119,13 @@ developer_chat_id=your_telegram_chat_id
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
 ## Todo
-- [x] Send document to kindle email
-- [x] mysql
-- [x] document information
-- [x] covert books with calibre
+- [x] Docker直装
+- [x] 发送文档到kindle邮箱
+- [x] mysql支持
+- [x] 书籍文件信息
+- [x] 书籍文件转换
 - [x] use configParse instead of os.getenv()
-- [x] i18n
-- [x] telegram MessageReply class
-- [ ] test case
-- [ ] queue
+- [x] 多语言
+- [x] 封装 messageReply 类
+- [ ] 测试实例
+- [ ] 队列

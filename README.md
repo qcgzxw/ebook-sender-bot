@@ -33,32 +33,74 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - lrf 
 - kfx 
 - pdb 
-- lit 
+- lit
+
+---
 
 ## Setup
+
+### [recommended] docker-compose install
+[docker-compose.yml](docker-compose.yml)
+```shell
+docker-compose up -d
+```
+
+### [recommended] docker install
+```shell
+docker run -d \
+    --restart unless-stopped \
+    --name ebook-sender-bot \
+    -e TZ=Asia/Shanghai \
+    -e SMTP_HOST={YOUR_SMTP_HOST} \
+    -e SMTP_PORT={YOUR_SMTP_PORT} \
+    -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
+    -e SMTP_PASSWORD={YOUR_SMTP_PASSWORD} \
+    -e BOT_TOKEN={YOUR_BOT_TOKEN} \
+    -e DEVELOPER_CHAT_ID={YOUR_TELEGRAM_CHAT_ID} \
+    qcgzxw/ebook-sender-bot
+```
+
+### source install
 1. copy *config.ini.example* to *config.ini*
 2. install requirements
 ```shell
-pip install -r requirments.txt
+pip3 install -r requirments.txt
 ```
 3. [install calibre](https://calibre-ebook.com/download)
 4. run main.py
 ```shell
-python main.py
+python3 main.py
 ```
 
 ### config.ini
 ```ini
 [default]
 # mode: [dev] printf runtime log to console 
-mode = dev
+mode=dev
 # Set a daily limit of e-mailing per user
-email_send_limit = 10
-# for example:
-#     SQLite[recommended]: sqlite:///database.db
-#     Mysql[recommended]: mysql+pool://username:passwordroot@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
-#     Mysql: connection pool: mysql://username:password@127.0.0.1:3306/ebook_sender_bot
-database = mysql+pool://root:root@127.0.0.1:3306/ebook_sender_bot?max_connections=20&stale_timeout=300
+email_send_limit=10
+# database: sqlite,mysql,postgresql
+database=sqlite
+
+# when database is sqlite
+[sqlite]
+name=ebook-sender-bot
+
+# when database is mysql
+[mysql]
+name=ebook-sender-bot
+host=192.168.1.1
+port=3306
+user=root
+password=root
+
+# when database is postgresql
+[postgresql]
+name=ebook-sender-bot
+host=192.168.1.1
+port=5432
+user=root
+password=root
 
 [smtp]
 host=smtp.gmail.com
@@ -78,6 +120,7 @@ developer_chat_id=your_telegram_chat_id
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
 ## Todo
+- [x] docker
 - [x] Send document to kindle email
 - [x] mysql
 - [x] document information
