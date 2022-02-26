@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
 LABEL MAINTAINER="qcgzxw<qcgzxw.com@gmail.com>"
-ARG REPO="https://github.com/qcgzxw/ebook-sender-bot.git"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Set Environment Variables
@@ -34,8 +33,8 @@ RUN \
 # Setup App
 WORKDIR /app
 VOLUME /app
+COPY . .
 RUN \
-  git clone ${REPO} . && \
   chmod +x docker/setup.sh && \
   python3 -m pip install --upgrade pip && \
   pip3 install -r requirements.txt
