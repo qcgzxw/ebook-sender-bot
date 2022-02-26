@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          platforms: linux/arm64,linux/amd64,linux/arm64,linux/arm/v7,darwin
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: qcgzxw/ebook-sender-bot:latest
