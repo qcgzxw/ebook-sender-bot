@@ -103,7 +103,7 @@ celerybeat.pid
 
 # Environments
 .env
-*.ini
+/config.ini
 .venv
 env/
 venv/

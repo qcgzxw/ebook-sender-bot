@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  ebook-sender-bot:
+    image: qcgzxw/ebook-sender-bot:latest
+    container_name: ebook-sender-bot
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      - APP_MODE=dev
+      - MAX_SEND_LIMIT=10
+      - DB=sqlite
+      - DB_NAME=ebook-sender-bot
+      #- DB=mysql
+      #- DB_NAME=tg_bot_kindle
+      #- DB_HOST=192.168.1.1
+      #- DB_PORT=3306
+      #- DB_USER=root
+      #- DB_PASSWORD=root
+      - SMTP_HOST=
+      - SMTP_PORT=
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - BOT_TOKEN=
+      - DEVELOPER_CHAT_ID=
