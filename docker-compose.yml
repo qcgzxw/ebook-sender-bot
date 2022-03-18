@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Asia/Shanghai
-      - APP_MODE=dev
+      - APP_MODE=prod
       - MAX_SEND_LIMIT=10
       - DB=sqlite
       - DB_NAME=ebook-sender-bot
@@ -23,3 +23,6 @@ services:
       - SMTP_PASSWORD=
       - BOT_TOKEN=
       - DEVELOPER_CHAT_ID=
+    volumes:
+      - ./ebooks/:/app/storage/
+      - ./default.log:/app/default.log

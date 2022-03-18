@@ -51,12 +51,16 @@ docker run -d \
     --restart unless-stopped \
     --name ebook-sender-bot \
     -e TZ=Asia/Shanghai \
+    -e APP_MODE=prod \
+    -e MAX_SEND_LIMIT=10 \
     -e SMTP_HOST={YOUR_SMTP_HOST} \
     -e SMTP_PORT={YOUR_SMTP_PORT} \
     -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
     -e SMTP_PASSWORD={YOUR_SMTP_PASSWORD} \
     -e BOT_TOKEN={YOUR_BOT_TOKEN} \
     -e DEVELOPER_CHAT_ID={YOUR_TELEGRAM_CHAT_ID} \
+    -v `./ebooks/`:`/app/storage/` \
+    -v `./default.log`:`/app/default.log` \
     qcgzxw/ebook-sender-bot
 ```
 

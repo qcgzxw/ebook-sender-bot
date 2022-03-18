@@ -37,7 +37,8 @@ COPY . .
 RUN \
   chmod +x docker/setup.sh && \
   python3 -m pip install --upgrade pip && \
-  pip3 install -r requirements.txt
+  pip3 install -r requirements.txt && \
+  touch default.log
 
 # Run App
 CMD ["/bin/bash", "/app/docker/setup.sh"]
