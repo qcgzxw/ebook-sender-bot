@@ -150,7 +150,7 @@ class TgBot:
             fp, _ = self.get_file_save_path(update)
             ext = os.path.splitext(fp)[1]
             if os.path.exists(os.path.splitext(fp)[0] + ".mobi"):
-                fp = os.path.exists(os.path.splitext(fp)[0] + ".mobi")
+                fp = os.path.splitext(fp)[0] + ".mobi"
                 ext = ".mobi"
             new_path = os.getcwd() + os.sep + "books" + os.sep
             if book_meta['Author(s)'] != "Unknown":
