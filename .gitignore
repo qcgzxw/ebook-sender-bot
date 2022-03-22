@@ -134,6 +134,8 @@ dmypy.json
 
 # litesql
 *.db*
+database*
 
 # project
 storage/
+books/

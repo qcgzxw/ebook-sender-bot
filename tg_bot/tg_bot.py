@@ -2,6 +2,7 @@ import html
 import json
 import logging
 import os
+import shutil
 import traceback
 from email.header import Header
 from email.mime.application import MIMEApplication
@@ -145,6 +146,21 @@ class TgBot:
         else:
             self.reply.send_msg(update, 'sendFailed')
         # todo: add to queue
+        if book_meta['Title'] != "Unknown":
+            fp, _ = self.get_file_save_path(update)
+            ext = os.path.splitext(fp)[1]
+            if os.path.exists(os.path.splitext(fp)[0] + ".mobi"):
+                fp = os.path.exists(os.path.splitext(fp)[0] + ".mobi")
+                ext = ".mobi"
+            new_path = os.getcwd() + os.sep + "books" + os.sep
+            if book_meta['Author(s)'] != "Unknown":
+                new_path += book_meta['Author(s)'] + " - "
+            new_path += book_meta['Title']
+            new_path += ext
+            if not os.path.exists(os.path.dirname(new_path)):
+                os.makedirs(os.path.dirname(new_path))
+            if not os.path.exists(new_path):
+                shutil.copy(fp, new_path)
 
     @staticmethod
     def get_file_save_path(update: Update) -> (str, bool):
