@@ -22,7 +22,7 @@ def get_book_meta(i: str):
     supported_formats_for_reading_meta = ['azw', 'azw1', 'azw3', 'azw4', 'cb7', 'cbr', 'cbz', 'chm', 'docx', 'epub',
                                           'fb2', 'fbz', 'html', 'htmlz', 'imp', 'lit', 'lrf', 'lrx', 'mobi', 'odt',
                                           'oebzip', 'opf', 'pdb', 'pdf', 'pml', 'pmlz', 'pobi', 'prc', 'rar', 'rb',
-                                          'rtf', 'snb', 'tpz', 'txt', 'txtz', 'updb', 'zip']
+                                          'rtf', 'snb', 'tpz', 'txt', 'txtz', 'updb']
     if i.split('.')[-1].lower() not in supported_formats_for_reading_meta:
         return book_meta
     ebook_meta = 'ebook-meta.exe' if is_windows() else 'ebook-meta'
@@ -53,7 +53,7 @@ def get_book_meta(i: str):
 def convert_book_to_mobi(i: str, o='') -> (bool, str):
     """Convert ebook to mobi format"""
     supported_formats_for_converting = (
-        'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb', 'zip')
+        'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb')
     if i.split('.')[-1].lower() not in supported_formats_for_converting \
             or os.path.splitext(i)[1].lower() == '.mobi':
         return True, i

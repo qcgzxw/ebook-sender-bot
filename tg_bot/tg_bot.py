@@ -25,7 +25,7 @@ class TgBot:
     reply = None
     lang = 'en-us'
     logger = None
-    allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'zip', 'mobi', 'pdf')
+    allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'txt', 'mobi', 'pdf')
     allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit')
     allow_email_domain = ('kindle.com', 'kindle.cn', )
 

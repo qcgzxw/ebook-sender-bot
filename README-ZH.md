@@ -20,7 +20,6 @@
 - html 
 - htm 
 - txt 
-- zip 
 - mobi 
 - pdf
 ### 转换成mobi格式发送
