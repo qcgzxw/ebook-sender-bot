@@ -19,7 +19,6 @@
 - rtf 
 - html 
 - htm 
-- txt 
 - mobi 
 - pdf
 ### 转换成mobi格式发送
@@ -33,6 +32,7 @@
 - kfx 
 - pdb 
 - lit
+- txt 
 
 ---
 
