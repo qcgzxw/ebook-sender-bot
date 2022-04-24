@@ -19,7 +19,6 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - rtf 
 - html 
 - htm 
-- txt 
 - mobi 
 - pdf
 ### convert to mobi and send
@@ -33,6 +32,7 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - kfx 
 - pdb 
 - lit
+- txt 
 
 ---
 
