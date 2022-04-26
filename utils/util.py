@@ -42,7 +42,16 @@ def get_book_meta(i: str):
             first_part = line.split(':')[0]
             second_part = line[len(first_part) + 1:]
             if first_part.strip() == key:
-                book_meta[key] = remove_html_tags(second_part.strip())
+                book_meta[key] = replace_all(remove_html_tags(second_part.strip()), {
+                    "/": " ",
+                    "\\": " ",
+                    ":": "：",
+                    "*": "X",
+                    "?": "？",
+                    "<": "《",
+                    ">": "》",
+                    "|": " ",
+                })
 
     # line="Published           : 2010-01-15T06:28:29.127000+00:00"
     if book_meta['Published'] != 'Unknown':
@@ -73,6 +82,12 @@ def remove_html_tags(text):
     """Remove html tags from a string"""
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
+
+
+def replace_all(text: str, dic: dict):
+    for i, j in dic.items():
+        text = text.replace(i, j)
+    return text
 
 
 def __run_command(command):
