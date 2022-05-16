@@ -140,7 +140,11 @@ class TgBot:
             update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
         if update.message.document.file_name.split('.')[-1] not in self.allow_file:
             # convert ebook to mobi
-            util.convert_book_to_mobi(save_path)
+            success, mobi_path = util.convert_book_to_mobi(save_path)
+            if success and os.path.getsize(mobi_path) > 50 * 1024 * 1024:
+                # kindle max size limit: 50MB
+                self.reply.send_msg(update, 'documentFileSizeError')
+                return
         if smtp.send_to_kindle(user.log_send_email(update.message.document.file_unique_id), self.set_message(update, book_meta)):
             self.reply.send_msg(update, 'done')
         else:
