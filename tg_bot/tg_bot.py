@@ -27,7 +27,7 @@ class TgBot:
     logger = None
     allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'mobi', 'pdf')
     allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit', 'txt')
-    allow_email_domain = ('kindle.com', 'kindle.cn', )
+    allow_email_domain = ('kindle.com', 'kindle.cn', 'kindle.co.uk', 'kindle.fr', 'kindle.de', 'kindle.it', 'kindle.co.jp', 'kindle.ca', 'kindle.nl', 'kindle.pl', 'kindle.es', 'kindle.sg', 'kindle.com.au', 'kindle.com.br', 'kindle.in', 'kindle.com.mx', 'kindle.com.tr', 'kindle.ae')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
