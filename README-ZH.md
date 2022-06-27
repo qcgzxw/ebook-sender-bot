@@ -1,5 +1,11 @@
 [English](README.md) | 简体中文
 
+## 【重要】：kindle将于2023年6月30日在中国停止Kindle电子书店的运营。
+考虑到届时可能无法购买新电子书、使用send to kindle功能，在这里强烈建议大家将账号迁移至海外区。
+
+- kindle已购书籍、个人文档批量下载：https://github.com/yihong0618/Kindle_download_helper
+- kindle海外账号注册指南：https://bookfere.com/post/492.html
+
 # ebook-sender-bot
 一个能将电子书发送给你Kinlde的telegram机器人
 
