@@ -1,22 +1,16 @@
 import html
 import json
 import logging
-import os
-import shutil
 import traceback
-from email.header import Header
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import i18n
 
+import i18n
 from telegram import Update, ParseMode, Bot
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
-from validate_email import validate_email
 
 from app.config.configs import smtp_config, default_config
-from app.model.user import User
-from app.utils import smtp, util
+from app.tg_bot.document import Document
+from app.tg_bot.errors import NotifyException
+from app.tg_bot.user import User
 
 
 class TgBot:
@@ -25,9 +19,6 @@ class TgBot:
     reply = None
     lang = 'en-us'
     logger = None
-    allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'mobi', 'pdf')
-    allow_send_file = allow_file + ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit', 'txt')
-    allow_email_domain = ('kindle.com', 'kindle.cn', 'kindle.co.uk', 'kindle.fr', 'kindle.de', 'kindle.it', 'kindle.co.jp', 'kindle.ca', 'kindle.nl', 'kindle.pl', 'kindle.es', 'kindle.sg', 'kindle.com.au', 'kindle.com.br', 'kindle.in', 'kindle.com.mx', 'kindle.com.tr', 'kindle.ae')
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -57,6 +48,7 @@ class TgBot:
             # Build the message with some markup and additional information about what happened.
             # You might need to add some logic to deal with messages longer than the 4096 character limit.
             update_str = update.to_dict() if isinstance(update, Update) else str(update)
+            print(self.develop_chat_id)
             self.reply.send_msg(
                 update,
                 'developError',
@@ -71,7 +63,7 @@ class TgBot:
         self.reply.send_msg(update, 'github')
 
     def command_start(self, update: Update, context: CallbackContext) -> None:
-        User.find_or_create(update.message.from_user)
+        User(update.message.from_user)
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
 
     def command_help(self, update: Update, context: CallbackContext) -> None:
@@ -79,134 +71,56 @@ class TgBot:
 
     def command_email(self, update: Update, context: CallbackContext) -> None:
         """Set kindle email"""
-        email = update.message.text
-        user = User.find_or_create(update.message.from_user)
-        if len(email.split()) == 1:
-            if len(user.emails) == 0:
-                self.reply.send_msg(update, 'emailErrorNotification')
-            else:
-                self.reply.send_msg(update, 'emailNotification', email=user.emails[0].email)
+        user = User(update.message.from_user)
+        if len(update.message.text.split()) == 1:
+            email = ""
         else:
-            email = email.split()[-1].lower()
-            if validate_email(email) and (
-                    user.is_developer()
-                    or
-                    email.split('@')[-1] in self.allow_email_domain
-            ):
-                user.set_email(email)
-                self.reply.send_msg(update, 'emailSetNotification', email=smtp_config('username'))
-            else:
-                self.reply.send_msg(update, 'emailInvalidNotification')
+            email = update.message.text.split()[1]
+        try:
+            user.set_email(email)
+            self.reply.send_msg(update, 'emailSetNotification', email=smtp_config('username'))
+        except NotifyException as e:
+            if e.args is not None:
+                if e.args[0] == "emailNotification":
+                    self.reply.send_msg(update, e.args[0], email=e.args[1])
+                else:
+                    self.reply.send_msg(update, e.args[0])
+        except Exception as e:
+            raise e
 
     def document(self, update: Update, context: CallbackContext) -> None:
         """Handle document type message"""
-        user = User.find_or_create(update.message.from_user)
-        # check user email
-        if len(user.emails) == 0:
-            self.reply.send_msg(update, 'documentEmailError')
-            return
-        # check file type
-        if update.message.document.file_name.split('.')[-1].lower() not in self.allow_send_file:
-            self.reply.send_msg(update, 'documentFileTypeError', types="|.".join(self.allow_send_file))
-            return
-        # check file size
-        if update.message.document.file_size == 0:
-            self.reply.send_msg(update, 'documentFileEmptyError')
-            return
-        if not user.is_developer() and update.message.document.file_size > 20 * 1024 * 1024:
-            self.reply.send_msg(update, 'documentFileSizeError')
-            return
-        if not user.is_developer() and int(default_config('email_send_limit')) < user.today_send_times():
-            self.reply.send_msg(update, 'documentLimitError')
-            return
-        self.reply.send_msg(update, 'downloading')
-        # download file
-        save_path, exist = self.get_file_save_path(update)
-        if not exist:
-            with open(save_path, 'wb') as f:
-                context.bot.get_file(update.message.document).download(out=f)
-            if not os.path.exists(save_path):
-                self.reply.send_msg(update, 'downloadFailed')
-                return
-        book_meta = util.get_book_meta(save_path)
-        reply_msg = ""
-        for key in book_meta.keys():
-            if book_meta[key] != 'Unknown':
-                reply_msg += f"<b>{key}:</b> <pre>{book_meta[key]}</pre>\r\n\r\n"
-        if reply_msg == "":
-            reply_msg = "sending..."
-        self.reply.send_text(update, reply_msg)
-        if os.path.exists(os.path.dirname(save_path) + os.sep + 'cover.png'):
-            update.message.reply_photo(open(os.path.dirname(save_path) + os.sep + 'cover.png', 'rb'))
-        if update.message.document.file_name.split('.')[-1] not in self.allow_file:
-            # convert ebook to mobi
-            success, mobi_path = util.convert_book_to_mobi(save_path)
-            if success and os.path.getsize(mobi_path) > 50 * 1024 * 1024:
-                # kindle max size limit: 50MB
-                self.reply.send_msg(update, 'documentFileSizeError')
-                return
-        if smtp.send_to_kindle(user.log_send_email(update.message.document.file_unique_id), self.set_message(update, book_meta)):
+        try:
+            document = Document(update.message.document, User(update.message.from_user))
+            self.reply.send_msg(update, 'downloading')
+            document.save_file(context.bot.get_file(update.message.document))
+            document.get_bool_meta()
+
+            def send_book_meta(book_meta: dict):
+                if book_meta.get('cover_path') is not None:
+                    update.message.reply_photo(open(book_meta['cover_path'], 'rb'))
+                    del book_meta['cover_path']
+                reply_msg = ""
+                for key in book_meta.keys():
+                    if book_meta[key] != 'Unknown':
+                        reply_msg += f"<b>{key}:</b> <pre>{book_meta[key]}</pre>\r\n\r\n"
+                if reply_msg == "":
+                    reply_msg = "sending..."
+                self.reply.send_text(update, reply_msg)
+
+            send_book_meta(document.get_bool_meta())
+            document.send_file_to_kindle()
             self.reply.send_msg(update, 'done')
-        else:
-            self.reply.send_msg(update, 'sendFailed')
-        # todo: add to queue
-        if book_meta['Title'] != "Unknown" and len(book_meta['Title'].encode()) <= 200:
-            fp, _ = self.get_file_save_path(update)
-            ext = os.path.splitext(fp)[1]
-            if os.path.exists(os.path.splitext(fp)[0] + ".mobi"):
-                fp = os.path.splitext(fp)[0] + ".mobi"
-                ext = ".mobi"
-            new_path = os.getcwd() + os.sep + "books" + os.sep
-            if book_meta['Author(s)'] != "Unknown" and \
-                    len(book_meta['Author(s)'].encode()) + len(book_meta['Title'].encode()) <= 250:
-                new_path += book_meta['Author(s)'] + " - "
-            new_path += book_meta['Title']
-            new_path += ext
-            if not os.path.exists(os.path.dirname(new_path)):
-                os.makedirs(os.path.dirname(new_path))
-            if not os.path.exists(new_path):
-                shutil.copy(fp, new_path)
+            document.copy_file_to_storage()
 
-    @staticmethod
-    def get_file_save_path(update: Update) -> (str, bool):
-        save_path = os.getcwd() + os.sep \
-                    + "storage" + os.sep \
-                    + str(update.message.from_user.id) + os.sep \
-                    + update.message.document.file_unique_id + os.sep \
-                    + update.message.document.file_name
-        if not os.path.exists(os.path.dirname(save_path)):
-            os.makedirs(os.path.dirname(save_path))
-        is_file_exist = os.path.exists(save_path)
-        return save_path, is_file_exist
-
-    @staticmethod
-    def set_message(update: Update, book_meta) -> MIMEMultipart:
-        file_name = update.message.document.file_name
-        file_path, _ = TgBot.get_file_save_path(update)
-        if file_name.split('.')[-1].lower() != "mobi" and os.path.exists(os.path.splitext(file_path)[0] + ".mobi"):
-            file_path = os.path.splitext(file_path)[0] + ".mobi"
-            file_name = os.path.splitext(file_name)[0] + ".mobi"
-        user = User.find_or_create(update.message.from_user)
-        message = MIMEMultipart()
-        message['From'] = smtp_config('username')
-        message['To'] = user.emails[0].email
-        subject = file_name
-        message['Subject'] = Header(subject, 'utf-8')
-        body = book_meta['Title'] if book_meta['Title'] != "Unknown" else file_name
-        if book_meta['Author(s)'] != "Unknown":
-            body += f"\r\nBy:{book_meta['Author(s)']}"
-        if book_meta['Published'] != "Unknown":
-            body += f"\r\nAt:{book_meta['Published']}"
-        msg_text = MIMEText(body, 'plain', 'utf-8')
-        message.attach(msg_text)
-        with open(file_path, 'rb') as f:
-            att = MIMEApplication(f.read())
-            att.add_header(
-                'Content-Disposition',
-                'attachment',
-                filename=Header(file_name, "utf-8").encode())
-            message.attach(att)
-        return message
+        except NotifyException as e:
+            if e.args is not None:
+                if e.args[0] == "documentFileTypeError":
+                    self.reply.send_msg(update, e.args[0], types=e.args[1])
+                else:
+                    self.reply.send_msg(update, e.args[0])
+        except Exception as e:
+            raise e
 
     def run(self):
         updater = Updater(self.token)

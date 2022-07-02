@@ -50,6 +50,8 @@ en-us:
     Please, send /email to set your e-mail and try again.
   documentFileTypeError:
     You can only send [%{types}] files to your kindle.
+  documentFileConvertError:
+    Failed to convert.
   documentFileSizeError:
     File[up to 20MB] too large.
   documentFileEmptyError:
