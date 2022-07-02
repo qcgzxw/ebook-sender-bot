@@ -25,7 +25,6 @@
 - rtf 
 - html 
 - htm 
-- mobi 
 - pdf
 ### 转换成mobi格式发送
 - azw 
@@ -35,6 +34,7 @@
 - fb2 
 - epub 
 - lrf 
+- mobi 
 - kfx 
 - pdb 
 - lit

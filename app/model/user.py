@@ -2,8 +2,8 @@ import datetime
 
 from peewee import *
 
-from config.configs import telegram_config
-from model.base import BaseModel
+from app.config.configs import telegram_config
+from app.model.base import BaseModel
 
 
 class User(BaseModel):

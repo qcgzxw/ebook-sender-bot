@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 
-from config.configs import is_windows
+from app.config.configs import is_windows
 
 
 def get_book_meta(i: str):
@@ -56,18 +56,20 @@ def get_book_meta(i: str):
     # line="Published           : 2010-01-15T06:28:29.127000+00:00"
     if book_meta['Published'] != 'Unknown':
         book_meta['Published'] = book_meta['Published'][:10]
+    if os.path.exists(os.path.dirname(i) + os.sep + 'cover.png'):
+        book_meta['cover_path'] = os.path.dirname(i) + os.sep + 'cover.png'
     return book_meta
 
 
-def convert_book_to_mobi(i: str, o='') -> (bool, str):
+def convert_book(i: str, file_ext='mobi', o='') -> (bool, str):
     """Convert ebook to mobi format"""
     supported_formats_for_converting = (
         'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb')
     if i.split('.')[-1].lower() not in supported_formats_for_converting \
-            or os.path.splitext(i)[1].lower() == '.mobi':
+            or os.path.splitext(i)[1].lower() == "." + file_ext:
         return True, i
     if o == '':
-        o = os.path.splitext(i)[0] + '.mobi'
+        o = os.path.splitext(i)[0] + "." + file_ext
     ebook_convert = 'ebook-convert.exe' if is_windows() else 'ebook-convert'
     if not os.path.exists(i) or ebook_convert == '':
         return False, ''

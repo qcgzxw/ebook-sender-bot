@@ -1,7 +1,7 @@
-from config.configs import telegram_config, database_config
-from model.base import database_proxy
-from model.user import User, UserEmail, UserSendLog
-from tg_bot.tg_bot import TgBot
+from app.config.configs import telegram_config, database_config
+from app.model.base import database_proxy
+from app.model.user import User, UserEmail, UserSendLog
+from app.tg_bot.tg_bot import TgBot
 
 
 def register_db() -> None:

@@ -57,6 +57,8 @@ zh-hans:
     请发送 /email 设置好你的kindle邮箱后重试
   documentFileTypeError:
     kindle只允许接受 [%{types}] 类型的文件
+  documentFileConvertError:
+    文件转换失败
   documentFileSizeError:
     文件[最大支持20MB]太大，无法发送
   documentFileEmptyError:

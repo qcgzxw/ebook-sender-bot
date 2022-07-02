@@ -19,9 +19,8 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - rtf 
 - html 
 - htm 
-- mobi 
 - pdf
-### convert to mobi and send
+### convert to epub and send
 - azw 
 - azw1 
 - azw3 
@@ -29,6 +28,7 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - fb2 
 - epub 
 - lrf 
+- mobi 
 - kfx 
 - pdb 
 - lit

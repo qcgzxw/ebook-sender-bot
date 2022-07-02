@@ -1,7 +1,7 @@
 from peewee import MySQLDatabase, SqliteDatabase, PostgresqlDatabase
 from playhouse.shortcuts import ReconnectMixin
 
-from config import CONFIG
+from app.config import CONFIG
 
 
 def default_config(key: str):

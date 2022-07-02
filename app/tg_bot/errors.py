@@ -1,0 +1,2 @@
+class NotifyException(Exception):
+    pass
