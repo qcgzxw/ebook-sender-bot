@@ -86,9 +86,9 @@ class Document:
             raise NotifyException('documentFileSizeError')
 
     def send_file_to_kindle(self):
-        file_name = self.origin_file.file_name
-        book_meta = self.get_bool_meta()
         self._convert_file()
+        file_name = os.path.basename(self.new_file_path)
+        book_meta = self.get_bool_meta()
 
         def get_message() -> MIMEMultipart:
             message = MIMEMultipart()
