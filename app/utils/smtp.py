@@ -2,8 +2,8 @@ import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 
-from config.configs import smtp_config
-from model.user import UserSendLog
+from app.config.configs import smtp_config
+from app.model.user import UserSendLog
 
 
 def send_to_kindle(user_send_log: UserSendLog, message: MIMEMultipart) -> bool:

@@ -14,9 +14,9 @@ from telegram import Update, ParseMode, Bot
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 from validate_email import validate_email
 
-from config.configs import smtp_config, default_config
-from model.user import User
-from utils import util, smtp
+from app.config.configs import smtp_config, default_config
+from app.model.user import User
+from app.utils import smtp, util
 
 
 class TgBot:
@@ -233,7 +233,7 @@ class MessageReply:
 
     def __init__(self, bot_token):
         self.bot = Bot(bot_token)
-        i18n.load_path.append('lang')
+        i18n.load_path.append('app/lang')
         i18n.set('fallback', 'en-us')
 
     def send_msg_decorator(func):

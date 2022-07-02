@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 
-from config.configs import is_windows
+from app.config.configs import is_windows
 
 
 def get_book_meta(i: str):
