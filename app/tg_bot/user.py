@@ -1,7 +1,10 @@
+import datetime
+
 import telegram
 from validate_email import validate_email
 
 from app.model.user import User as UserModel
+from app.model.user import get_send_history
 from app.tg_bot.errors import NotifyException
 
 
@@ -47,3 +50,19 @@ class User:
             raise NotifyException('emailInvalidNotification')
 
         return self.email
+
+    def get_daily_stats(self):
+        return self.get_stats(datetime.date.today())
+
+    def get_monthly_stats(self):
+        return self.get_stats(datetime.datetime(datetime.date.today().year, datetime.date.today().month, 1))
+
+    def get_stats(self, start_time=None):
+        def build_stats_msg(results) -> str:
+            msg = ''
+            for item in results:
+                msg += '*' + item['username'] + '*: ' + str(item['num_logs']) + '\r\n'
+            if msg == '':
+                msg = 'No record.'
+            return msg
+        return build_stats_msg(get_send_history(start_time))

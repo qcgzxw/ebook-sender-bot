@@ -75,3 +75,10 @@ class UserSendLog(BaseModel):
     def send_failed(self):
         self.status = 2
         return self.save()
+
+
+def get_send_history(start_time=None):
+    query = UserSendLog.select(User.username, User.telegram_id, fn.COUNT(UserSendLog.id).alias('num_logs'))
+    if start_time:
+        query = query.where(UserSendLog.send_time >= start_time)
+    return query.join(User).group_by(User.telegram_id).order_by(fn.COUNT(UserSendLog.id).desc()).dicts()
