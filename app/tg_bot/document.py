@@ -15,9 +15,9 @@ from app.utils.util import convert_book, get_book_meta
 
 
 class Document:
-    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf')
+    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf', 'txt',  'mobi', 'epub')
     allow_send_file = amazon_allow_file + \
-                      ('mobi', 'azw', 'azw1', 'azw3', 'azw4', 'fb2', 'epub', 'lrf', 'kfx', 'pdb', 'lit', 'txt')
+                      ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'lrf', 'kfx', 'pdb', 'lit')
 
     user: User
     origin_file: telegram.Document = None
@@ -73,12 +73,11 @@ class Document:
         return self.book_meta
 
     def _convert_file(self):
-        ext = self.user.get_ebook_type()
-        if ext == self.origin_file.file_name.split('.')[-1].lower():
+        if self.origin_file.file_name.split('.')[-1].lower() in self.amazon_allow_file:
             self.new_file_path = self.origin_file_path
             return
 
-        success, self.new_file_path = convert_book(self.origin_file_path, ext)
+        success, self.new_file_path = convert_book(self.origin_file_path)
         if not success or self.new_file_path == '':
             raise NotifyException('documentFileConvertError')
 

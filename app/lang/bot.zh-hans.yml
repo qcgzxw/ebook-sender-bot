@@ -9,6 +9,11 @@ zh-hans:
     <pre>context.chat_data = %{chat_data}</pre>
     <pre>context.user_data = %{user_data}</pre>
     <pre>%{err_msg}</pre>
+  adminCommand: |
+    /daily_stats 今日统计
+    /monthly_stats 本月统计
+    /stats 总统计
+
   github: |
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>

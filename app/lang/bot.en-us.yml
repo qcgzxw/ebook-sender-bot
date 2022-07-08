@@ -9,6 +9,10 @@ en-us:
     <pre>context.chat_data = %{chat_data}</pre>
     <pre>context.user_data = %{user_data}</pre>
     <pre>%{err_msg}</pre>
+  adminCommand: |
+    /daily_stats
+    /monthly_stats
+    /stats
   github: |
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>

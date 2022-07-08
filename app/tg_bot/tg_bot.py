@@ -66,6 +66,33 @@ class TgBot:
         User(update.message.from_user)
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
 
+    def is_admin(command_func):
+        def command_warp(*args, **kwargs):
+            def command(self, update: Update, context: CallbackContext):
+                user = User(update.message.from_user)
+                if user.is_develop():
+                    return command_func(self, user, update, context)
+
+            return command(*args, **kwargs)
+
+        return command_warp
+
+    @is_admin
+    def command_admin(self, user: User, update: Update, context: CallbackContext) -> None:
+        self.reply.send_msg(update, 'adminCommand')
+
+    @is_admin
+    def command_daily_stats(self, user: User, update: Update, context: CallbackContext) -> None:
+        update.message.reply_markdown(text=str(user.get_daily_stats()))
+
+    @is_admin
+    def command_monthly_stats(self, user: User, update: Update, context: CallbackContext) -> None:
+        update.message.reply_markdown(text=str(user.get_monthly_stats()))
+
+    @is_admin
+    def command_stats(self, user: User, update: Update, context: CallbackContext) -> None:
+        update.message.reply_markdown(text=str(user.get_stats()))
+
     def command_help(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'help', email=smtp_config('username'))
 
@@ -134,6 +161,12 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('github', self.command_github))
         dispatcher.add_handler(MessageHandler(Filters.document, self.document))
 
+        # Admin command
+        dispatcher.add_handler(CommandHandler('admin', self.command_admin))
+        dispatcher.add_handler(CommandHandler('daily_stats', self.command_daily_stats))
+        dispatcher.add_handler(CommandHandler('monthly_stats', self.command_monthly_stats))
+        dispatcher.add_handler(CommandHandler('stats', self.command_stats))
+
         # Send debug information to develop
         dispatcher.add_error_handler(self.error_handler)
 
@@ -160,6 +193,7 @@ class MessageReply:
                     parse_mode=ParseMode.HTML,
                     disable_web_page_preview=True
                 )
+
         return send_msg
 
     @send_msg_decorator
