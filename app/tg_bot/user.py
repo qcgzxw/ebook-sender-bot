@@ -31,11 +31,6 @@ class User:
     def get_today_send_times(self) -> int:
         return self.userModel.today_send_times()
 
-    def get_ebook_type(self) -> str:
-        if self.email.endswith("@kindle.com"):
-            return "epub"
-        return "mobi"
-
     def set_email(self, email: str = '') -> str:
         if email == '':
             if self.email == '':
