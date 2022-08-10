@@ -67,7 +67,7 @@ class Document:
             if not os.path.exists(self.origin_file_path):
                 raise NotifyException('downloadFailed')
 
-    def get_bool_meta(self) -> dict:
+    def get_book_meta(self) -> dict:
         if self.book_meta is None:
             self.book_meta = get_book_meta(self.origin_file_path)
         return self.book_meta
@@ -87,7 +87,7 @@ class Document:
     def send_file_to_kindle(self):
         self._convert_file()
         file_name = os.path.basename(self.new_file_path)
-        book_meta = self.get_bool_meta()
+        book_meta = self.get_book_meta()
 
         def get_message() -> MIMEMultipart:
             message = MIMEMultipart()
@@ -117,7 +117,7 @@ class Document:
         user_send_log.send_succeed()
 
     def copy_file_to_storage(self):
-        book_meta = self.get_bool_meta()
+        book_meta = self.get_book_meta()
         if book_meta['Title'] != "Unknown" and len(book_meta['Title'].encode()) <= 200:
             ext = os.path.splitext(self.new_file_path)[1]
             new_path = os.getcwd() + os.sep + "books" + os.sep

@@ -48,7 +48,6 @@ class TgBot:
             # Build the message with some markup and additional information about what happened.
             # You might need to add some logic to deal with messages longer than the 4096 character limit.
             update_str = update.to_dict() if isinstance(update, Update) else str(update)
-            print(self.develop_chat_id)
             self.reply.send_msg(
                 update,
                 'developError',
@@ -121,7 +120,7 @@ class TgBot:
             document = Document(update.message.document, User(update.message.from_user))
             self.reply.send_msg(update, 'downloading')
             document.save_file(context.bot.get_file(update.message.document))
-            document.get_bool_meta()
+            document.get_book_meta()
 
             def send_book_meta(book_meta: dict):
                 if book_meta.get('cover_path') is not None:
@@ -129,13 +128,13 @@ class TgBot:
                     del book_meta['cover_path']
                 reply_msg = ""
                 for key in book_meta.keys():
-                    if book_meta[key] != 'Unknown':
+                    if book_meta[key] != 'Unknown' and len(book_meta[key]) < 4000:
                         reply_msg += f"<b>{key}:</b> <pre>{book_meta[key]}</pre>\r\n\r\n"
                 if reply_msg == "":
                     reply_msg = "sending..."
                 self.reply.send_text(update, reply_msg)
 
-            send_book_meta(document.get_bool_meta())
+            send_book_meta(document.get_book_meta())
             document.send_file_to_kindle()
             self.reply.send_msg(update, 'done')
             document.copy_file_to_storage()
