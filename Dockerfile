@@ -26,7 +26,7 @@ ENV DEVELOPER_CHAT_ID ''
 # Install Calibere And Python
 RUN \
   apt-get update && \
-  apt-get install -y curl pkg-config tzdata wget iputils-ping git libfontconfig libgl1-mesa-glx python3 python3-pip python3-pyqt5.qtmultimedia libnss3 && \
+  apt-get install -y curl pkg-config tzdata wget iputils-ping git libfontconfig libgl1-mesa-glx python3 python3-pip python3-pyqt5.qtmultimedia libnss3 libopengl0 && \
   pip3 install PyQtWebEngine && \
   wget --no-check-certificate -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin
 
