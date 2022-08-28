@@ -26,15 +26,16 @@
 - html 
 - htm 
 - pdf
+- mobi
+- ebup
+
 ### 转换成mobi格式发送
 - azw 
 - azw1 
 - azw3 
 - azw4 
 - fb2 
-- epub 
 - lrf 
-- mobi 
 - kfx 
 - pdb 
 - lit

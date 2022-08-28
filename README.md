@@ -20,15 +20,16 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - html 
 - htm 
 - pdf
+- mobi
+- epub
+
 ### convert to epub and send
 - azw 
 - azw1 
 - azw3 
 - azw4 
 - fb2 
-- epub 
 - lrf 
-- mobi 
 - kfx 
 - pdb 
 - lit
