@@ -57,6 +57,7 @@ docker run -d \
     -e TZ=Asia/Shanghai \
     -e APP_MODE=prod \
     -e MAX_SEND_LIMIT=10 \
+    -e FORMAT=epub \
     -e SMTP_HOST={YOUR_SMTP_HOST} \
     -e SMTP_PORT={YOUR_SMTP_PORT} \
     -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
