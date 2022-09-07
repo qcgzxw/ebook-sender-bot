@@ -7,6 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ## App Mode
 ENV APP_MODE dev
 ENV MAX_SEND_LIMIT 10
+ENV FORMAT epub
 ## Database Infomation
 ENV DB sqlite
 ENV DB_NAME ebook_sender_bot

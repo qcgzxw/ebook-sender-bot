@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 
-from app.config.configs import is_windows
+from app.config.configs import is_windows, default_config
 
 
 def get_book_meta(i: str):
@@ -61,8 +61,8 @@ def get_book_meta(i: str):
     return book_meta
 
 
-def convert_book(i: str, file_ext='mobi', o='') -> (bool, str):
-    """Convert ebook to mobi format"""
+def convert_book(i: str, file_ext=default_config('format'), o='') -> (bool, str):
+    """Convert ebook to default format"""
     supported_formats_for_converting = (
         'azw', 'azw1', 'azw3', 'azw4', 'epub', 'mobi', 'kfx', 'fb2', 'html', 'lit', 'lrf', 'pdb')
     if i.split('.')[-1].lower() not in supported_formats_for_converting \

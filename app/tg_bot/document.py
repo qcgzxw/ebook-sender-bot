@@ -15,9 +15,9 @@ from app.utils.util import convert_book, get_book_meta
 
 
 class Document:
-    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf', 'txt',  'mobi', 'epub')
+    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf', 'txt', 'epub')
     allow_send_file = amazon_allow_file + \
-                      ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'lrf', 'kfx', 'pdb', 'lit')
+                      ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'lrf', 'kfx', 'pdb', 'lit', 'mobi')
 
     user: User
     origin_file: telegram.Document = None
