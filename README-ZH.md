@@ -11,6 +11,10 @@
 
 免费使用：[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 
+> 我们希望通知您，从 2022 年 8 月开始，您将无法再将 MOBI（.mobi、.azw）文件发送至您的 Kindle 图书馆。Kindle 图书馆中已有的 MOBI 文件将不会受此变更的影响。MOBI 是一种较旧的文件格式，不支持最新的 Kindle 文档功能。如果想使用我们最新的文档功能阅读现有 MOBI 文件，您需要以兼容格式重新发送这些文件。
+
+> 目前兼容的格式包括 EPUB（.epub），您可以使用“发送至 Kindle”的电子邮件地址将这些格式的文件发送至您的图书馆。我们还将在适用于 iOS 和安卓设备的免费 Kindle 阅读软件以及适用于 PC 和 Mac 的“发送至 Kindle”桌面应用中添加对 EPUB 的支持。     
+
 ## 用法
 
 1. 打开机器人链接:[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
@@ -26,8 +30,7 @@
 - html 
 - htm 
 - pdf
-- mobi
-- ebup
+- epub
 
 ### 转换成mobi格式发送
 - azw 
@@ -40,6 +43,7 @@
 - pdb 
 - lit
 - txt 
+- mobi
 
 ---
 

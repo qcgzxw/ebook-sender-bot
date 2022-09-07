@@ -5,12 +5,16 @@ Send E-Book to kindle with Telegram Bot.
 
 Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 
+> We wanted to let you know that starting August 2022, you’ll no longer be able to send MOBI (.mobi, .azw) files to your Kindle library. Any MOBI files already in your library will not be affected by this change. MOBI is an older file format and won’t support the newest Kindle features for documents. Any existing MOBI files you want to read with our most up-to-date features for documents will need to be re-sent in a compatible format.
+
+> Compatible formats now include EPUB (.epub), which you can send to your library using your Send to Kindle email address. We’ll also be adding EPUB support to the free Kindle app for iOS and Android devices and the Send to Kindle desktop app for PC and Mac. 
+
 ## Usage
 
 1. Open bot link:[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 2. Send */email your-kindle-email@kindle.com* to set your kindle email address.
 3. Add bot email to your [Approved Personal Document E-mail](https://www.amazon.com/hz/mycd/myx#/home/settings/payment).
-4. Send a supported document to this bot and check your kindle.
+4. Send a supported document to this bot and check your Kindle.
 
 ## Support document format
 ### send directly
@@ -20,7 +24,6 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - html 
 - htm 
 - pdf
-- mobi
 - epub
 
 ### convert to epub and send
@@ -34,6 +37,7 @@ Try it: [https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
 - pdb 
 - lit
 - txt 
+- mobi
 
 ---
 
