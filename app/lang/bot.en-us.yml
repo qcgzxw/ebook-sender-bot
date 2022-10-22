@@ -13,6 +13,8 @@ en-us:
     /daily_stats
     /monthly_stats
     /stats
+    /enable_maintenance
+    /disable_maintenance
   github: |
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
@@ -35,6 +37,13 @@ en-us:
 
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  maintenanceHelp: |
+    Sorry for the inconvenience but we’re performing some maintenance at the moment. If you need to you can always contact us, otherwise we’ll be back online shortly!
+  enableMaintenanceModeNotification: |
+    Maintenance mode ON.
+  disableMaintenanceModeNotification: |
+    Maintenance mode OFF.
+
   emailErrorNotification: |
     Send:
     <code>/email send-to-kindle-email@kindle.com</code>
