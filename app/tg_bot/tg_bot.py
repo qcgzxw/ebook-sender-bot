@@ -20,6 +20,8 @@ class TgBot:
     lang = 'en-us'
     logger = None
 
+    maintenance_mode = False
+
     def __init__(self, token: str, chat_id: str):
         self.token = token
         self.develop_chat_id = chat_id
@@ -65,6 +67,20 @@ class TgBot:
         User(update.message.from_user)
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
 
+    def is_in_maintenance_mode(self):
+        return self.maintenance_mode
+
+    def check_perm(command_func):
+        def command_warp(*args, **kwargs):
+            def command(self, update: Update, context: CallbackContext):
+                if not self.is_in_maintenance_mode():
+                    return command_func(self, update, context)
+                return self.command_maintenance(update, context)
+
+            return command(*args, **kwargs)
+
+        return command_warp
+
     def is_admin(command_func):
         def command_warp(*args, **kwargs):
             def command(self, update: Update, context: CallbackContext):
@@ -92,9 +108,23 @@ class TgBot:
     def command_stats(self, user: User, update: Update, context: CallbackContext) -> None:
         update.message.reply_markdown(text=str(user.get_stats()))
 
+    @is_admin
+    def enable_maintenance(self, user: User, update: Update, context: CallbackContext) -> None:
+        self.maintenance_mode = True
+        self.reply.send_msg(update, 'enableMaintenanceModeNotification')
+
+    @is_admin
+    def disable_maintenance(self, user: User, update: Update, context: CallbackContext) -> None:
+        self.maintenance_mode = False
+        self.reply.send_msg(update, 'disableMaintenanceModeNotification')
+
     def command_help(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'help', email=smtp_config('username'))
 
+    def command_maintenance(self, update: Update, context: CallbackContext) -> None:
+        self.reply.send_msg(update, 'maintenanceHelp')
+
+    @check_perm
     def command_email(self, update: Update, context: CallbackContext) -> None:
         """Set kindle email"""
         user = User(update.message.from_user)
@@ -114,6 +144,7 @@ class TgBot:
         except Exception as e:
             raise e
 
+    @check_perm
     def document(self, update: Update, context: CallbackContext) -> None:
         """Handle document type message"""
         try:
@@ -165,6 +196,8 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('daily_stats', self.command_daily_stats))
         dispatcher.add_handler(CommandHandler('monthly_stats', self.command_monthly_stats))
         dispatcher.add_handler(CommandHandler('stats', self.command_stats))
+        dispatcher.add_handler(CommandHandler('enable_maintenance', self.enable_maintenance))
+        dispatcher.add_handler(CommandHandler('disable_maintenance', self.disable_maintenance))
 
         # Send debug information to develop
         dispatcher.add_error_handler(self.error_handler)
