@@ -155,7 +155,11 @@ class TgBot:
 
             def send_book_meta(book_meta: dict):
                 if book_meta.get('cover_path') is not None:
-                    update.message.reply_photo(open(book_meta['cover_path'], 'rb'))
+                    try:
+                        update.message.reply_photo(open(book_meta['cover_path'], 'rb'))
+                    except Exception:
+                        pass
+                        # update.message.reply_markdown(text=str(e))
                     del book_meta['cover_path']
                 reply_msg = ""
                 for key in book_meta.keys():
