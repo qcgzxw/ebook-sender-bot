@@ -45,6 +45,10 @@ zh-hans:
 
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  donate: |
+    如果觉得好用还请捐赠打赏，您的支持让我们能提供更好的服务。
+
+    👉<a href='https://www.qcgzxw.com/post/donate/'>捐赠</a>
   maintenanceHelp: |
     维护中，请稍候再试...
   enableMaintenanceModeNotification: |
@@ -84,6 +88,10 @@ zh-hans:
   downloadFailed:
     下载失败！
   done:
-    已发送，请在kindle首页刷新并查看是否已经收到该文档
+    已发送，请在kindle首页刷新并查看是否已经收到该文档。
+
+    如果觉得好用还请捐赠打赏，您的支持让我们能提供更好的服务。
+
+    👉<a href='https://www.qcgzxw.com/post/donate/'>捐赠</a>
   sendFailed:
     发送失败！

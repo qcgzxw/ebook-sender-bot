@@ -4,6 +4,7 @@ mode=dev
 email_send_limit=10
 # mysql|sqlite|postgresql
 database=sqlite
+format=epub
 
 [mysql]
 name=ebook_sender_bot

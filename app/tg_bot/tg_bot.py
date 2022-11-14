@@ -63,6 +63,9 @@ class TgBot:
     def command_github(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'github')
 
+    def command_donate(self, update: Update, context: CallbackContext) -> None:
+        self.reply.send_msg(update, 'donate')
+
     def command_start(self, update: Update, context: CallbackContext) -> None:
         User(update.message.from_user)
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
@@ -193,6 +196,7 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('help', self.command_help))
         dispatcher.add_handler(CommandHandler('email', self.command_email))
         dispatcher.add_handler(CommandHandler('github', self.command_github))
+        dispatcher.add_handler(CommandHandler('donate', self.command_donate))
         dispatcher.add_handler(MessageHandler(Filters.document, self.document))
 
         # Admin command
