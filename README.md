@@ -128,6 +128,13 @@ developer_chat_id=your_telegram_chat_id
 ![telegram-bot](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344769229431634476922938.png)
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
+## Donate
+👉[Buy me a beer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+Beer)
+
+👉[Buy me a vps](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+VPS)
+
+👉[Buy me a keyboard](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+Keyboard)
+
 ## Todo
 - [x] docker
 - [x] Send document to kindle email
@@ -137,7 +144,7 @@ developer_chat_id=your_telegram_chat_id
 - [x] use configParse instead of os.getenv()
 - [x] i18n
 - [x] telegram MessageReply class
+- [x] admin command
 - [ ] unique email
-- [ ] admin command
 - [ ] queue
 - [ ] test case

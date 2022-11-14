@@ -63,6 +63,9 @@ class TgBot:
     def command_github(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'github')
 
+    def command_donate(self, update: Update, context: CallbackContext) -> None:
+        self.reply.send_msg(update, 'donate')
+
     def command_start(self, update: Update, context: CallbackContext) -> None:
         User(update.message.from_user)
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
@@ -95,6 +98,15 @@ class TgBot:
     @is_admin
     def command_admin(self, user: User, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'adminCommand')
+
+    @is_admin
+    def command_test(self, user: User, update: Update, context: CallbackContext) -> None:
+        if len(update.message.text.split()) == 1:
+            command = ""
+        else:
+            command = update.message.text.split()[1]
+        if command is not "":
+            self.reply.send_msg(update, command)
 
     @is_admin
     def command_daily_stats(self, user: User, update: Update, context: CallbackContext) -> None:
@@ -193,9 +205,11 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('help', self.command_help))
         dispatcher.add_handler(CommandHandler('email', self.command_email))
         dispatcher.add_handler(CommandHandler('github', self.command_github))
+        dispatcher.add_handler(CommandHandler('donate', self.command_donate))
         dispatcher.add_handler(MessageHandler(Filters.document, self.document))
 
         # Admin command
+        dispatcher.add_handler(CommandHandler('test', self.command_test))
         dispatcher.add_handler(CommandHandler('admin', self.command_admin))
         dispatcher.add_handler(CommandHandler('daily_stats', self.command_daily_stats))
         dispatcher.add_handler(CommandHandler('monthly_stats', self.command_monthly_stats))

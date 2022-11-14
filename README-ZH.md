@@ -133,6 +133,9 @@ developer_chat_id=your_telegram_chat_id
 ![telegram-bot](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344769229431634476922938.png)
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
+## 捐赠
+![](https://image.qcgzxw.cn/data-image/2022/11/14/092b1bc287a9b0ec24c0b20643caeda7.jpg)
+
 ## Todo
 - [x] Docker直装
 - [x] 发送文档到kindle邮箱
@@ -142,5 +145,6 @@ developer_chat_id=your_telegram_chat_id
 - [x] use configParse instead of os.getenv()
 - [x] 多语言
 - [x] 封装 messageReply 类
+- [X] 管理员命令
 - [ ] 测试实例
 - [ ] 队列
