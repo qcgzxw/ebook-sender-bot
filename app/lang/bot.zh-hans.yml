@@ -15,6 +15,7 @@ zh-hans:
     /stats 总统计
     /enable_maintenance 开启维护模式
     /disable_maintenance 关闭维护模式
+    /test 测试
 
   github: |
     <b>Github: </b>

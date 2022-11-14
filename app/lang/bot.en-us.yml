@@ -15,6 +15,7 @@ en-us:
     /stats
     /enable_maintenance
     /disable_maintenance
+    /test
   github: |
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>

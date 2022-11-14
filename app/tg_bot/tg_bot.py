@@ -100,6 +100,15 @@ class TgBot:
         self.reply.send_msg(update, 'adminCommand')
 
     @is_admin
+    def command_test(self, user: User, update: Update, context: CallbackContext) -> None:
+        if len(update.message.text.split()) == 1:
+            command = ""
+        else:
+            command = update.message.text.split()[1]
+        if command is not "":
+            self.reply.send_msg(update, command)
+
+    @is_admin
     def command_daily_stats(self, user: User, update: Update, context: CallbackContext) -> None:
         update.message.reply_markdown(text=str(user.get_daily_stats()))
 
@@ -200,6 +209,7 @@ class TgBot:
         dispatcher.add_handler(MessageHandler(Filters.document, self.document))
 
         # Admin command
+        dispatcher.add_handler(CommandHandler('test', self.command_test))
         dispatcher.add_handler(CommandHandler('admin', self.command_admin))
         dispatcher.add_handler(CommandHandler('daily_stats', self.command_daily_stats))
         dispatcher.add_handler(CommandHandler('monthly_stats', self.command_monthly_stats))
