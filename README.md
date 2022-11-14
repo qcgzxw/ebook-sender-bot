@@ -129,20 +129,7 @@ developer_chat_id=your_telegram_chat_id
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
 ## Donate
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<table>
-<tr><td><input type="hidden" name="on0" value="Sponsors">Sponsors</td></tr><tr><td><select name="os0">
-	<option value="Buy Me A Beer">Buy Me A Beer $9.99 USD</option>
-	<option value="Buy Me A VPS">Buy Me A VPS $19.99 USD</option>
-	<option value="Buy Me A Keyboard">Buy Me A Keyboard $99.99 USD</option>
-</select> </td></tr>
-</table>
-<input type="hidden" name="currency_code" value="USD">
-<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-<input type="image" src="https://www.paypalobjects.com/en_US/C2/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
+[Donate](https://www.qcgzxw.com/post/donate/#PayPal)
 
 ## Todo
 - [x] docker
