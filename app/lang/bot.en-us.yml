@@ -46,6 +46,7 @@ en-us:
     👉<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+Keyboard'>Buy me a KeyBoard</a>
   maintenanceHelp: |
     Sorry for the inconvenience but we’re performing some maintenance at the moment. If you need to you can always contact us, otherwise we’ll be back online shortly!
+    We'll be back at {end_time}.
   enableMaintenanceModeNotification: |
     Maintenance mode ON.
   disableMaintenanceModeNotification: |
@@ -84,11 +85,5 @@ en-us:
     Download failed!
   done:
     Done.You can check if this file can be found on your kindle!
-
-
-    If you feel easy to use, please visit our website to donate online now. Your support allows us to provide better services.
-
-
-    👉Send /donate to donate.
   sendFailed:
     Sending failed!
