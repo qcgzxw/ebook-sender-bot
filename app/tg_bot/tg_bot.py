@@ -1,9 +1,13 @@
+import datetime
 import html
 import json
 import logging
+import time
 import traceback
 
 import i18n
+import pytz
+import tzlocal
 from telegram import Update, ParseMode, Bot
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 
@@ -20,7 +24,7 @@ class TgBot:
     lang = 'en-us'
     logger = None
 
-    maintenance_mode = False
+    maintenance_end_timestamp = 0
 
     def __init__(self, token: str, chat_id: str):
         self.token = token
@@ -71,7 +75,7 @@ class TgBot:
         self.reply.send_msg(update, 'start', email=smtp_config('username'))
 
     def is_in_maintenance_mode(self):
-        return self.maintenance_mode
+        return self.maintenance_end_timestamp > 0
 
     def check_perm(command_func):
         def command_warp(*args, **kwargs):
@@ -105,7 +109,7 @@ class TgBot:
             command = ""
         else:
             command = update.message.text.split()[1]
-        if command is not "":
+        if command != "":
             self.reply.send_msg(update, command)
 
     @is_admin
@@ -122,19 +126,29 @@ class TgBot:
 
     @is_admin
     def enable_maintenance(self, user: User, update: Update, context: CallbackContext) -> None:
-        self.maintenance_mode = True
+        if len(update.message.text.split()) > 1 and update.message.text.split()[1].isnumeric():
+            end_time = int(update.message.text.split()[1])
+        else:
+            end_time = int(time.time()) + 10 * 60
+        self.maintenance_end_timestamp = end_time
         self.reply.send_msg(update, 'enableMaintenanceModeNotification')
 
     @is_admin
     def disable_maintenance(self, user: User, update: Update, context: CallbackContext) -> None:
-        self.maintenance_mode = False
+        self.maintenance_end_timestamp = 0
         self.reply.send_msg(update, 'disableMaintenanceModeNotification')
 
     def command_help(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'help', email=smtp_config('username'))
 
     def command_maintenance(self, update: Update, context: CallbackContext) -> None:
-        self.reply.send_msg(update, 'maintenanceHelp')
+        maintenance_end_time = datetime.datetime.fromtimestamp(self.maintenance_end_timestamp)
+        system_tz = tzlocal.get_localzone_name()
+        self.reply.send_msg(
+            update,
+            'maintenanceHelp',
+            end_time=maintenance_end_time.astimezone(pytz.timezone(system_tz)).strftime("%Y-%m-%d %H:%M %Z (%z)")
+        )
 
     @check_perm
     def command_email(self, update: Update, context: CallbackContext) -> None:
