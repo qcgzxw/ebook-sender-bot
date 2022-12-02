@@ -38,6 +38,14 @@ en-us:
 
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  email_confirm: |
+    <b>How to set the <i>Approved Personal Document E-mail</i>?</b>
+    
+    You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
+    
+    <b>Then add this bot's email: <code>%{email}</code><b>
+    
+    to the list otherwise you'll not be able to use this bot.
   donate: |
     If you feel easy to use, please visit our website to donate online now. Your support allows us to provide better services.
 

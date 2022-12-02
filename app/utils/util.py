@@ -1,8 +1,11 @@
 import os
+import random
 import re
+import string
 import subprocess
+import typing
 
-from app.config.configs import is_windows, default_config
+from app.config.configs import is_windows, default_config, provider_config, smtp_config
 
 
 def get_book_meta(i: str):
@@ -90,6 +93,16 @@ def replace_all(text: str, dic: dict):
     for i, j in dic.items():
         text = text.replace(i, j)
     return text
+
+
+def gen_sender_email_username(telegram_id) -> typing.Union[str, None]:
+    return 'telegram_' + str(telegram_id) + '@' + provider_config('mailcow_mailbox_domain') \
+        if default_config('email_provider') == 'mailcow' else smtp_config('username')
+
+
+def gen_sender_email_password() -> typing.Union[str, None]:
+    return ''.join(random.choice(string.ascii_lowercase+'1234567890') for _ in range(15)) \
+        if default_config('email_provider') == 'mailcow' else None
 
 
 def __run_command(command):

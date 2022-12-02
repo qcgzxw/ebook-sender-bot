@@ -58,6 +58,7 @@ docker run -d \
     -e APP_MODE=prod \
     -e MAX_SEND_LIMIT=10 \
     -e FORMAT=epub \
+    -e EMAIL_PROVIDER=config \
     -e SMTP_HOST={YOUR_SMTP_HOST} \
     -e SMTP_PORT={YOUR_SMTP_PORT} \
     -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
@@ -90,6 +91,8 @@ mode=dev
 email_send_limit=10
 # database: sqlite,mysql,postgresql
 database=sqlite
+# email_provider: config,mailcow
+email_provider=config
 
 # when database is sqlite
 [sqlite]
@@ -116,6 +119,12 @@ host=smtp.gmail.com
 port=465
 username=your_email_address
 password=your_email_account_password
+
+# when email_provider is mailcow
+[provider]
+mailcow_url=your_mailcow_url
+mailcow_api_key=mailcow_admin_api_key
+mailcow_mailbox_domain=mailcow_mailbox_domain
 
 [telegram]
 # telegram tg_bot token
