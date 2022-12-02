@@ -16,6 +16,10 @@ def telegram_config(key: str):
     return CONFIG['telegram'][key]
 
 
+def provider_config(key: str):
+    return CONFIG['provider'][key]
+
+
 def is_windows():
     return CONFIG['default']['platform'] == 'Windows'
 

@@ -10,6 +10,7 @@ services:
       - APP_MODE=prod
       - MAX_SEND_LIMIT=10
       - FORMAT=epub
+      - EMAIL_PROVIDER=config
       - DB=sqlite
       - DB_NAME=ebook-sender-bot
       #- DB=mysql

@@ -7,10 +7,10 @@ from email.mime.text import MIMEText
 
 import telegram
 
-from app.config.configs import smtp_config, default_config
+from app.config.configs import default_config
 from app.tg_bot.errors import NotifyException
 from app.tg_bot.user import User
-from app.utils.smtp import send_to_kindle
+from app.email.email_sender import send_to_kindle
 from app.utils.util import convert_book, get_book_meta
 
 
@@ -33,7 +33,7 @@ class Document:
         self.origin_file_path = os.sep.join([
             os.getcwd(),
             "storage",
-            str(self.user.userModel.telegram_id),
+            str(self.user.user_model.telegram_id),
             self.origin_file.file_unique_id,
             self.origin_file.file_name
         ])
@@ -91,8 +91,8 @@ class Document:
 
         def get_message() -> MIMEMultipart:
             message = MIMEMultipart()
-            message['From'] = smtp_config('username')
-            message['To'] = self.user.email
+            message['From'] = self.user.get_sender()
+            message['To'] = self.user.get_email()
             message['Subject'] = Header(file_name, 'utf-8')
             body = book_meta['Title'] if book_meta['Title'] != "Unknown" else file_name
             if book_meta['Author(s)'] != "Unknown":
@@ -110,8 +110,15 @@ class Document:
                 message.attach(att)
             return message
 
-        user_send_log = self.user.userModel.log_send_email(self.origin_file.file_unique_id)
-        if not send_to_kindle(self.user.email, get_message()):
+        user_send_log = self.user.user_model.log_send_email(
+            self.user.get_sender(),
+            self.origin_file.file_unique_id
+        )
+        if not send_to_kindle(
+            self.user.get_email(),
+            get_message(),
+            **self.user.get_email_config()
+        ):
             user_send_log.send_failed()
             raise NotifyException("sendFailed")
         user_send_log.send_succeed()

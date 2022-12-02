@@ -2,8 +2,9 @@ import datetime
 
 from peewee import *
 
-from app.config.configs import telegram_config
+from app.config.configs import telegram_config, provider_config
 from app.model.base import BaseModel
+from app.utils.util import gen_sender_email_username, gen_sender_email_password
 
 
 class User(BaseModel):
@@ -28,6 +29,23 @@ class User(BaseModel):
             user.save()
         return user
 
+    def set_email_sender(self):
+        if len(self.emails) == 0:
+            return UserEmail.create(
+                user=self,
+                email="",
+                sender_email=gen_sender_email_username(self.telegram_id),
+                sender_email_password=gen_sender_email_password(),
+                sender_email_created=0
+            )
+        else:
+            # todo: one2many update bug
+            if self.emails[0].sender_email is None or self.emails[0].sender_email == "":
+                return UserEmail.update(
+                    sender_email=gen_sender_email_username(self.telegram_id),
+                    sender_email_password=gen_sender_email_password()
+                ).where(UserEmail.user == self).execute()
+
     def set_email(self, email: str):
         if len(self.emails) == 0:
             return UserEmail.create(user=self, email=email)
@@ -47,10 +65,13 @@ class User(BaseModel):
                 .count()
                 )
 
-    def log_send_email(self, file_unique_id: str):
+    def log_send_email(self, sender_email: str, file_unique_id: str):
         return (
-            UserSendLog.create(user=self, email=self.emails[0].email, file_unique_id=file_unique_id)
+            UserSendLog.create(user=self, email=self.emails[0].email, sender_email=sender_email, file_unique_id=file_unique_id)
         )
+
+    def log_created_email(self):
+        return UserEmail.update(sender_email_created=1).where(UserEmail.user == self).execute()
 
     def is_developer(self):
         return telegram_config('developer_chat_id') == self.telegram_id
@@ -59,11 +80,15 @@ class User(BaseModel):
 class UserEmail(BaseModel):
     user = ForeignKeyField(User, backref='emails')
     email = CharField(max_length=100)
+    sender_email = CharField(default=None, max_length=200)
+    sender_email_password = CharField(default=None, max_length=200)
+    sender_email_created = SmallIntegerField(default=0)
 
 
 class UserSendLog(BaseModel):
     user = ForeignKeyField(User, backref='user_send_logs')
     email = CharField(max_length=100)
+    sender_email = CharField(max_length=200)
     file_unique_id = CharField(max_length=200)
     status = SmallIntegerField(default=0)
     send_time = DateTimeField(default=datetime.datetime.now)

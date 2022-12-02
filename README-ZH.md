@@ -63,6 +63,7 @@ docker run -d \
     -e APP_MODE=prod \
     -e MAX_SEND_LIMIT=10 \
     -e FORMAT=epub \
+    -e EMAIL_PROVIDER=config \
     -e SMTP_HOST={YOUR_SMTP_HOST} \
     -e SMTP_PORT={YOUR_SMTP_PORT} \
     -e SMTP_USERNAME={YOUR_SMTP_USERNAME} \
@@ -95,6 +96,8 @@ mode = dev
 email_send_limit = 10
 # database: sqlite,mysql,postgresql
 database=sqlite
+# email_provider: config,mailcow
+email_provider=config
 
 # 当database为sqlite时
 [sqlite]
@@ -122,6 +125,13 @@ port=465
 username=your_email_address
 password=your_email_account_password
 
+# 当email_provider为mailcow时
+[provider]
+mailcow_url=your_mailcow_url
+mailcow_api_key=mailcow_admin_api_key
+mailcow_mailbox_domain=mailcow_mailbox_domain
+
+
 [telegram]
 # telegram tg_bot token
 bot_token=your_telegram_bot_token
@@ -146,5 +156,8 @@ developer_chat_id=your_telegram_chat_id
 - [x] 多语言
 - [x] 封装 messageReply 类
 - [X] 管理员命令
+- [X] 单用户单邮箱
+- [ ] 发件邮箱抽离出来，配置保存数据库
+- [ ] 更换ORM
 - [ ] 测试实例
 - [ ] 队列

@@ -46,6 +46,16 @@ zh-hans:
 
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+  email_confirm: |
+    <b>如何添加<i>已认可的发件人电子邮箱列表</i>？</b>
+    
+    登录你的亚马逊账号，查看页面 <a href='https://www.amazon.cn/gp/digital/fiona/manage#/home/settings/payment'>已认可的发件人电子邮箱列表</a>
+    
+    然后点击<b>添加认可的电子邮箱</b>
+    
+    <b>将机器人邮箱: <code>%{email}</code>添加到列表</b>
+    
+    <b>如果不设置该选项，你的kindle将无法接收到机器人发送给你的文档</b>
   donate: |
     如果觉得好用还请捐赠打赏，您的支持让我们能提供更好的服务。
 

@@ -11,10 +11,11 @@ import tzlocal
 from telegram import Update, ParseMode, Bot
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 
-from app.config.configs import smtp_config, default_config
+from app.config.configs import default_config
 from app.tg_bot.document import Document
 from app.tg_bot.errors import NotifyException
 from app.tg_bot.user import User
+from app.utils.util import gen_sender_email_username
 
 
 class TgBot:
@@ -72,7 +73,7 @@ class TgBot:
 
     def command_start(self, update: Update, context: CallbackContext) -> None:
         User(update.message.from_user)
-        self.reply.send_msg(update, 'start', email=smtp_config('username'))
+        self.reply.send_msg(update, 'start', email=gen_sender_email_username(update.message.from_user.id))
 
     def is_in_maintenance_mode(self):
         return self.maintenance_end_timestamp > 0
@@ -80,9 +81,14 @@ class TgBot:
     def check_perm(command_func):
         def command_warp(*args, **kwargs):
             def command(self, update: Update, context: CallbackContext):
-                if not self.is_in_maintenance_mode():
-                    return command_func(self, update, context)
-                return self.command_maintenance(update, context)
+                if self.is_in_maintenance_mode():
+                    return self.command_maintenance(update, context)
+                user = User(update.message.from_user)
+                if not user.create_email_sender():
+                    user.create_sender_email()
+                    self.reply.send_msg(update, 'email_confirm', email=gen_sender_email_username(update.message.from_user.id))
+                    return
+                return command_func(self, update, context)
 
             return command(*args, **kwargs)
 
@@ -139,7 +145,7 @@ class TgBot:
         self.reply.send_msg(update, 'disableMaintenanceModeNotification')
 
     def command_help(self, update: Update, context: CallbackContext) -> None:
-        self.reply.send_msg(update, 'help', email=smtp_config('username'))
+        self.reply.send_msg(update, 'help', email=gen_sender_email_username(update.message.from_user.id))
 
     def command_maintenance(self, update: Update, context: CallbackContext) -> None:
         maintenance_end_time = datetime.datetime.fromtimestamp(self.maintenance_end_timestamp)
@@ -160,7 +166,11 @@ class TgBot:
             email = update.message.text.split()[1]
         try:
             user.set_email(email)
-            self.reply.send_msg(update, 'emailSetNotification', email=smtp_config('username'))
+            self.reply.send_msg(
+                update,
+                'emailSetNotification',
+                email=gen_sender_email_username(update.message.from_user.id)
+            )
         except NotifyException as e:
             if e.args is not None:
                 if e.args[0] == "emailNotification":
