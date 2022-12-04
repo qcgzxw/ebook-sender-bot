@@ -1,5 +1,7 @@
+import email
 import os
 import shutil
+from email import encoders
 from email.header import Header
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
@@ -94,6 +96,8 @@ class Document:
             message['From'] = self.user.get_sender()
             message['To'] = self.user.get_email()
             message['Subject'] = Header(file_name, 'utf-8')
+            message['Date'] = email.utils.formatdate()
+            message['Message-ID'] = email.utils.make_msgid(self.user.get_email())
             body = book_meta['Title'] if book_meta['Title'] != "Unknown" else file_name
             if book_meta['Author(s)'] != "Unknown":
                 body += f"\r\nBy:{book_meta['Author(s)']}"
@@ -106,7 +110,9 @@ class Document:
                 att.add_header(
                     'Content-Disposition',
                     'attachment',
-                    filename=Header(file_name, "utf-8").encode())
+                    filename=Header(file_name, "utf-8").encode()
+                )
+                encoders.encode_base64(att)
                 message.attach(att)
             return message
 
