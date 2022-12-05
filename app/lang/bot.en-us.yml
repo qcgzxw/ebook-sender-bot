@@ -43,7 +43,7 @@ en-us:
     
     You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
     
-    <b>Then add this bot's email: <code>%{email}</code><b>
+    <b>Then add this bot's email: <code>%{email}</code></b>
     
     to the list otherwise you'll not be able to use this bot.
   donate: |
