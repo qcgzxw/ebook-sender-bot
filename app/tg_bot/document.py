@@ -1,7 +1,6 @@
 import email
 import os
 import shutil
-from email import encoders
 from email.header import Header
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
@@ -112,7 +111,6 @@ class Document:
                     'attachment',
                     filename=Header(file_name, "utf-8").encode()
                 )
-                encoders.encode_base64(att)
                 message.attach(att)
             return message
 
