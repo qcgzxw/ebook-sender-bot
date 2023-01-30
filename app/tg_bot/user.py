@@ -39,7 +39,7 @@ class User:
     def create_email_sender(self) -> bool:
         if default_config('email_provider') == 'config':
             return True
-        elif default_config('email_provider') == 'mailcow':
+        elif default_config('email_provider') == 'mailcow' or default_config('email_provider') == 'mailcow_alias':
             self.user_model.set_email_sender()
             return self.user_model.emails[0].sender_email_created == 1
         else:
@@ -61,6 +61,15 @@ class User:
                 'host': smtp_config('host'),
                 'port': smtp_config('port'),
             }
+        elif default_config('email_provider') == 'mailcow_alias':
+            user_email = self.user_model.emails[0]
+            return {
+                'username': smtp_config('username'),
+                'form_email': user_email.sender_email,
+                'password': smtp_config('password'),
+                'host': smtp_config('host'),
+                'port': smtp_config('port'),
+            }
         return None
 
     def check(self):
@@ -74,8 +83,8 @@ class User:
         return self.user_model.today_send_times()
 
     def create_sender_email(self):
+        mailcow = MailcowApi(provider_config('mailcow_url'), provider_config('mailcow_api_key'))
         if default_config('email_provider') == 'mailcow':
-            mailcow = MailcowApi(provider_config('mailcow_url'), provider_config('mailcow_api_key'))
             sender_email = self.user_model.emails[0].sender_email
             sender_email_password = self.user_model.emails[0].sender_email_password
             if sender_email and sender_email != '' and self.user_model.emails[0].sender_email_created == 0:
@@ -91,6 +100,23 @@ class User:
                         return
                 else:
                     raise Exception("email exists")
+        else:
+            sender_email = self.user_model.emails[0].sender_email
+            if sender_email and sender_email != '' and self.user_model.emails[0].sender_email_created == 0:
+                alias_list = mailcow.get_aliases()
+                for alias_obj in alias_list:
+                    if alias_obj['address'] == sender_email:
+                        self.user_model.log_created_email()
+                        return
+                added, data = mailcow.add_aliases(
+                    sender_email,
+                    smtp_config('username')
+                )
+                if added:
+                    self.user_model.log_created_email()
+                    return
+                else:
+                    raise Exception(data)
 
     def set_email(self, email: str = '') -> str:
         if email == '':
