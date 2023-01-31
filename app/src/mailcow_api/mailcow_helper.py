@@ -52,10 +52,11 @@ class MailcowHelper:
         except Exception as e:
             raise MailcowServerException(e)
         req.close()
+        rsp = rsp[0] if type(rsp) == list else rsp
 
-        if "type" in rsp[0] and "msg" in rsp[0]:
-            if rsp[0]['type'] != 'success':
-                return False, rsp[0]['msg']
+        if "type" in rsp and "msg" in rsp:
+            if rsp['type'] != 'success':
+                return False, rsp['msg']
             else:
                 return True, None
         else:

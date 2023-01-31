@@ -103,16 +103,11 @@ class User:
         elif default_config('email_provider') == 'mailcow_alias':
             sender_email = self.user_model.emails[0].sender_email
             if sender_email and sender_email != '' and self.user_model.emails[0].sender_email_created == 0:
-                alias_list = mailcow.get_aliases()
-                for alias_obj in alias_list:
-                    if alias_obj['address'] == sender_email:
-                        self.user_model.log_created_email()
-                        return
                 added, data = mailcow.add_aliases(
                     sender_email,
                     smtp_config('username')
                 )
-                if added:
+                if added or (type(data) is list and data[0] == 'is_alias_or_mailbox'):
                     self.user_model.log_created_email()
                     return
                 else:
