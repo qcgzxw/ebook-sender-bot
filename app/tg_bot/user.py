@@ -100,7 +100,7 @@ class User:
                         return
                 else:
                     raise Exception("email exists")
-        else:
+        elif default_config('email_provider') == 'mailcow_alias':
             sender_email = self.user_model.emails[0].sender_email
             if sender_email and sender_email != '' and self.user_model.emails[0].sender_email_created == 0:
                 alias_list = mailcow.get_aliases()
