@@ -1,5 +1,5 @@
 import json
-import typing
+from typing import Union
 
 import requests
 import urllib3
@@ -24,18 +24,18 @@ class MailcowHelper:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
     def add(self, source: str, data: object) -> (bool, object):
-        http_code, data = self._post(self._build_url(f"api/v1/add/{source}"), json.dumps(data))
-        return http_code, data
+        ok, data = self._post(self._build_url(f"api/v1/add/{source}"), json.dumps(data))
+        return ok, data
 
     def delete(self, source: str, data: object) -> (bool, object):
-        http_code, data = self._post(self._build_url(f"api/v1/delete/{source}"), json.dumps(data))
-        return http_code, data
+        ok, data = self._post(self._build_url(f"api/v1/delete/{source}"), json.dumps(data))
+        return ok, data
 
     def update(self, source: str, data: object) -> (bool, object):
-        http_code, data = self._post(self._build_url(f"api/v1/update/{source}"), json.dumps(data))
-        return http_code, data
+        ok, data = self._post(self._build_url(f"api/v1/update/{source}"), json.dumps(data))
+        return ok, data
 
-    def get(self, source, source_id: str) -> object:
+    def get(self, source, source_id: str) -> Union[object, list]:
         http_code, data = self._get(self._build_url(f"api/v1/get/{source}/{source_id}"))
         if http_code != 200:
             raise MailcowException(data)

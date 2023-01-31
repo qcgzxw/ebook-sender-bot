@@ -10,12 +10,14 @@ SMTP_TLS_PORT = 587
 class EmailSender:
     host = ''
     username = ''
+    form_email = ''
     port = SMTP_SSL_PORT
     password = ''
 
     def __init__(self, **kwargs):
         self.host = kwargs.get('host', smtp_config('host'))
         self.username = kwargs.get('username', smtp_config('username'))
+        self.form_email = kwargs.get('form_email', self.username)
         self.port = kwargs.get('port', smtp_config('port'))
         self.password = kwargs.get('password', smtp_config('password'))
 
@@ -24,7 +26,7 @@ class EmailSender:
         try:
             server = smtplib.SMTP_SSL(self.host, self.port)
             server.login(self.username, self.password)
-            server.sendmail(self.username, [to_email, ], email_content.as_string())
+            server.sendmail(self.form_email, [to_email, ], email_content.as_string())
             server.quit()
         except Exception as e:
             logging.getLogger().error(e)

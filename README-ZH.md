@@ -96,7 +96,7 @@ mode = dev
 email_send_limit = 10
 # database: sqlite,mysql,postgresql
 database=sqlite
-# email_provider: config,mailcow
+# email_provider: config,mailcow,mailcow_alias
 email_provider=config
 
 # 当database为sqlite时
@@ -125,7 +125,7 @@ port=465
 username=your_email_address
 password=your_email_account_password
 
-# 当email_provider为mailcow时
+# 当email_provider为mailcow或mailcow_alias时
 [provider]
 mailcow_url=your_mailcow_url
 mailcow_api_key=mailcow_admin_api_key

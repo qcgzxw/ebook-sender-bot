@@ -1,8 +1,5 @@
-import json
-
+from typing import Union
 from .mailcow_helper import MailcowHelper
-
-
 
 MAILBOXES_GET_MAILBOXES = 'get/mailbox/'
 MAILBOXES_CREATE_MAILBOX = 'add/mailbox'
@@ -18,7 +15,6 @@ class MailcowApiException(Exception):
 
 
 class MailcowApi:
-
     mailcow_instance = None
 
     def __init__(self, api_url: str, api_key: str):
@@ -31,9 +27,6 @@ class MailcowApi:
         return self.mailcow_instance
 
     def register_mailbox(self, username: str, password: str, **kwargs) -> (bool, object):
-        if self.mailcow_instance is None:
-            raise MailcowApiException('Mailbox instance not initialized')
-
         if '@' not in username:
             raise MailcowApiException('params invalid')
 
@@ -66,5 +59,25 @@ class MailcowApi:
             if username == '':
                 username = 'all'
             return self._get_instance().get('mailbox', username)
+        except Exception as e:
+            raise MailcowApiException(e)
+
+    def get_aliases(self, domain_id: str = '') -> Union[object, list]:
+        try:
+            if domain_id == '':
+                domain_id = 'all'
+            return self._get_instance().get('alias', str(domain_id))
+        except Exception as e:
+            raise MailcowApiException(e)
+
+    def add_aliases(self, address: str, goto: str) -> (bool, object):
+        if self._get_instance() is None:
+            raise MailcowApiException('Mailbox instance not initialized')
+        try:
+            return self._get_instance().add('alias', {
+                "active": "1",
+                "address": address,
+                "goto": goto
+            })
         except Exception as e:
             raise MailcowApiException(e)
