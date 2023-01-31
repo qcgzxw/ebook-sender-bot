@@ -97,7 +97,7 @@ def replace_all(text: str, dic: dict):
 
 def gen_sender_email_username(telegram_id) -> typing.Union[str, None]:
     return 'telegram_' + str(telegram_id) + '@' + provider_config('mailcow_mailbox_domain') \
-        if default_config('email_provider') == 'mailcow' else smtp_config('username')
+        if default_config('email_provider') == 'mailcow' or default_config('email_provider') == 'mailcow_alias' else smtp_config('username')
 
 
 def gen_sender_email_password() -> typing.Union[str, None]:
