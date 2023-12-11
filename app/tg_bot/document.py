@@ -17,7 +17,7 @@ from app.utils.util import convert_book, get_book_meta
 
 
 class Document:
-    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf', 'txt', 'epub')
+    amazon_allow_file = ('doc', 'docx', 'rtf', 'html', 'htm', 'pdf', 'txt')
     allow_send_file = amazon_allow_file + \
                       ('azw', 'azw1', 'azw3', 'azw4', 'fb2', 'lrf', 'kfx', 'pdb', 'lit', 'mobi')
 
