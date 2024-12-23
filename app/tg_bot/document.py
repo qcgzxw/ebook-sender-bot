@@ -56,7 +56,7 @@ class Document:
             raise NotifyException('documentFileSizeError')
 
     def _check_total_send(self):
-        if not self.user.is_develop() and 0 < int(
+        if not self.user.is_develop() and self.user.is_vip() and 0 < int(
                 default_config('email_send_limit')) < self.user.get_today_send_times():
             raise NotifyException('documentLimitError')
 
@@ -78,7 +78,9 @@ class Document:
         if self.origin_file.file_name.split('.')[-1].lower() in self.amazon_allow_file:
             self.new_file_path = self.origin_file_path
             return
-
+        #if not self.user.is_vip() and not self.user.is_develop():
+        if not self.user.is_vip():
+            raise NotifyException('eBookConvertIsForVip')
         success, self.new_file_path = convert_book(self.origin_file_path)
         if not success or self.new_file_path == '':
             raise NotifyException('documentFileConvertError')

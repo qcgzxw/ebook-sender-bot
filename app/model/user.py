@@ -11,6 +11,7 @@ class User(BaseModel):
     telegram_id = CharField(unique=True, max_length=20)
     username = CharField(max_length=128)
     nickname = CharField(default=None, max_length=250)
+    is_vip = BooleanField(default=False)
     join_time = DateTimeField(default=datetime.datetime.now)
 
     @staticmethod

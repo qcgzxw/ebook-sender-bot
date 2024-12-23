@@ -43,9 +43,6 @@ zh-hans:
     然后点击<b>添加认可的电子邮箱</b>
     将机器人邮箱: <code>%{email}</code>添加到列表
     <b>如果不设置该选项，你的kindle将无法接收到机器人发送给你的文档</b>
-
-    <b>Github: </b>
-    <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
   email_confirm: |
     <b>如何添加<i>已认可的发件人电子邮箱列表</i>？</b>
     
@@ -58,8 +55,12 @@ zh-hans:
     <b>如果不设置该选项，你的kindle将无法接收到机器人发送给你的文档</b>
   donate: |
     如果觉得好用还请捐赠打赏，您的支持让我们能提供更好的服务。
-
-    👉<a href='https://www.qcgzxw.com/post/donate/'>捐赠</a>
+    
+    捐赠人民币¥88以上，我们将为你开通一年VIP。
+    捐赠人民币¥188以上，我们将为你开通永久VIP。
+    
+    留言：捐赠+邮箱地址或Telegram用户名
+    👉<a href='https://buymeacoffee.com/qcgzxw'>捐赠</a>
   maintenanceHelp: |
     维护中，预计%{end_time}结束维护，请稍后再试...
   enableMaintenanceModeNotification: |
@@ -93,7 +94,9 @@ zh-hans:
   documentFileEmptyError:
     文件为空
   documentLimitError:
-    你今天已经使用太多次了，请明天再试
+    你今天已经使用太多次了，请明天再试。【VIP用户将不受限制】
+    
+    捐赠：/donate
   downloading:
     下载中...
   downloadFailed:
@@ -102,3 +105,7 @@ zh-hans:
     已发送，请在kindle首页刷新并查看是否已经收到该文档。
   sendFailed:
     发送失败！
+  eBookConvertIsForVip:
+    当前格式不受支持，请使用以下格式。【VIP用户将不受限制】
+    
+    捐赠：/donate
