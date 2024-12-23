@@ -2,7 +2,8 @@ en-us:
   error: |
     <b>Error</b>:
     <pre> %{err_msg} </pre>
-    <b>Contact me</b>: @qcgzxw
+    
+    <a href='https://buymeacoffee.com/qcgzxw'>Contact us</a>
   developError: |
     An exception was raised while handling an update
     <pre>update = %{update_data}</pre>
@@ -36,8 +37,6 @@ en-us:
     Then add this bot's email: <code>%{email}</code>
     to the list otherwise you'll not be able to use this bot.
 
-    <b>Github: </b>
-    <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
   email_confirm: |
     <b>How to set the <i>Approved Personal Document E-mail</i>?</b>
     
@@ -48,10 +47,13 @@ en-us:
     to the list otherwise you'll not be able to use this bot.
   donate: |
     If you feel easy to use, please visit our website to donate online now. Your support allows us to provide better services.
-
-    👉<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+Beer'>Buy me a beer</a>
-    👉<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+VPS'>Buy me a VPS</a>
-    👉<a href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M67JY6LTXNLB4&on0=donate&os0=Buy+Me+A+Keyboard'>Buy me a KeyBoard</a>
+    
+    $9.99 = unlimited function for a year.
+    $19.99 = unlimited function for a lifetime.
+    
+    remember to leave your email address.
+    
+    👉<a href='https://buymeacoffee.com/qcgzxw'>Buy me a beer</a>
   maintenanceHelp: |
     Sorry for the inconvenience but we’re performing some maintenance at the moment. If you need to you can always contact us, otherwise we’ll be back online shortly!
     We'll be back at {end_time}.
@@ -87,6 +89,10 @@ en-us:
     Empty file.
   documentLimitError:
     You have sent too many times today, you may try tomorrow.
+    
+    You can donate to become a VIP user which will not be limited.
+    
+    /donate
   downloading:
     Downloading...
   downloadFailed:
@@ -95,3 +101,9 @@ en-us:
     Done.You can check if this file can be found on your kindle!
   sendFailed:
     Sending failed!
+  eBookConvertIsForVip:
+    The current file's format is not supported.
+    
+    You can donate to become a VIP user which will not be limited.
+    
+    /donate

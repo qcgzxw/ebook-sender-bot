@@ -33,6 +33,9 @@ class User:
     def get_email(self) -> str:
         return self.email
 
+    def is_vip(self) -> bool:
+        return self.user_model.is_vip
+
     def get_sender(self) -> str:
         return self.sender_email
 

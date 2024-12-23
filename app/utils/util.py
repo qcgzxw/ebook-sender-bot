@@ -105,7 +105,7 @@ def gen_sender_email_password() -> typing.Union[str, None]:
         if default_config('email_provider') == 'mailcow' else None
 
 
-def __run_command(command):
+def __run_command(command, timeout=None):
     """Run system command"""
     # Why does subprocess.Popen() with shell true work differently on linux vs windows.
     # https://stackoverflow.com/questions/1253122/why-does-subprocess-popen-with-shell-true-work-differently-on-linux-vs-windows
@@ -116,5 +116,5 @@ def __run_command(command):
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    stdout_value, stderr_value = proc.communicate()
+    stdout_value, stderr_value = proc.communicate(timeout=timeout)
     return stdout_value.decode('utf-8'), stderr_value

@@ -228,7 +228,7 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('start', self.command_start))
         dispatcher.add_handler(CommandHandler('help', self.command_help))
         dispatcher.add_handler(CommandHandler('email', self.command_email))
-        dispatcher.add_handler(CommandHandler('github', self.command_github))
+        #dispatcher.add_handler(CommandHandler('github', self.command_github))
         dispatcher.add_handler(CommandHandler('donate', self.command_donate))
         dispatcher.add_handler(MessageHandler(Filters.document, self.document))
 
