@@ -78,8 +78,7 @@ class Document:
         if self.origin_file.file_name.split('.')[-1].lower() in self.amazon_allow_file:
             self.new_file_path = self.origin_file_path
             return
-        #if not self.user.is_vip() and not self.user.is_develop():
-        if not self.user.is_vip():
+        if not self.user.is_vip() and not self.user.is_develop():
             raise NotifyException('eBookConvertIsForVip')
         success, self.new_file_path = convert_book(self.origin_file_path)
         if not success or self.new_file_path == '':
