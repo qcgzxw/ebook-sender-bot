@@ -144,7 +144,7 @@ developer_chat_id=your_telegram_chat_id
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
 ## 捐赠
-![](https://image.qcgzxw.cn/data-image/2022/11/14/092b1bc287a9b0ec24c0b20643caeda7.jpg)
+https://afdian.com/a/ebook-sender-bot
 
 ## Todo
 - [x] Docker直装
