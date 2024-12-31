@@ -18,8 +18,8 @@
 ## 用法
 
 1. 打开机器人链接:[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
-2. 发送 */email your-kindle-email@kindle.com* 来设置你的kindle邮箱。kindle邮箱可以在 [个人文档设置](https://www.amazon.cn/gp/digital/fiona/manage#/home/settings/payment) 页面找到
-3. 添加机器人邮箱到 [已认可的发件人电子邮箱列表](https://www.amazon.cn/gp/digital/fiona/manage#/home/settings/payment)
+2. 发送 */email your-kindle-email@kindle.com* 来设置你的kindle邮箱。kindle邮箱可以在 [个人文档设置](https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment) 页面找到
+3. 添加机器人邮箱到 [已认可的发件人电子邮箱列表](https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment)
 4. 发送支持类型的文档到机器人，然后在kindle首页刷新检查即可。
 
 ## 受支持的文档类型
@@ -144,7 +144,7 @@ developer_chat_id=your_telegram_chat_id
 ![kindle](https://cdn.jsdelivr.net/gh/image-backup/qcgzxw-images@master/image/16344842508421634484250830.png)
 
 ## 捐赠
-![](https://image.qcgzxw.cn/data-image/2022/11/14/092b1bc287a9b0ec24c0b20643caeda7.jpg)
+https://afdian.com/a/ebook-sender-bot
 
 ## Todo
 - [x] Docker直装

@@ -34,7 +34,9 @@ class User:
         return self.email
 
     def is_vip(self) -> bool:
-        return self.user_model.is_vip
+        if default_config('vip').lower() == 'true':
+            return self.user_model.is_vip
+        return True
 
     def get_sender(self) -> str:
         return self.sender_email

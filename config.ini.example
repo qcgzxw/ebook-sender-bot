@@ -6,6 +6,7 @@ email_send_limit=10
 database=sqlite
 format=epub
 email_provider=config
+vip=False
 
 [mysql]
 name=ebook_sender_bot

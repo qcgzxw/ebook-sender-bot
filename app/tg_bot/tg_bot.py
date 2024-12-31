@@ -12,6 +12,7 @@ from telegram import Update, ParseMode, Bot
 from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 
 from app.config.configs import default_config
+from app.model.user import UserEmail
 from app.tg_bot.document import Document
 from app.tg_bot.errors import NotifyException
 from app.tg_bot.user import User
@@ -144,6 +145,27 @@ class TgBot:
         self.maintenance_end_timestamp = 0
         self.reply.send_msg(update, 'disableMaintenanceModeNotification')
 
+    @is_admin
+    def set_vip(self, user: User, update: Update, context: CallbackContext) -> None:
+        parts = update.message.text.split()
+        if len(parts) != 2:
+            self.reply.send_msg(update, 'emailRequiredNotification')
+            return
+        email = parts[1]
+        user_email = UserEmail.get_or_none(UserEmail.email == email)
+        if not user_email or not user_email.user:
+            self.reply.send_msg(update, "unknownEmailAddress")
+            return
+        target_user = user_email.user
+        # 设置用户为VIP
+        target_user.set_vip(True)
+        self.reply.send_msg(update, "setVipSuccess")
+        self.reply.send_msg(
+            update,
+            'becomeVipMemberMessage',
+            chat_id=target_user.telegram_id,
+        )
+
     def command_help(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'help', email=gen_sender_email_username(update.message.from_user.id))
 
@@ -240,6 +262,7 @@ class TgBot:
         dispatcher.add_handler(CommandHandler('stats', self.command_stats))
         dispatcher.add_handler(CommandHandler('enable_maintenance', self.enable_maintenance))
         dispatcher.add_handler(CommandHandler('disable_maintenance', self.disable_maintenance))
+        dispatcher.add_handler(CommandHandler('set_vip', self.set_vip))
 
         # Send debug information to develop
         dispatcher.add_error_handler(self.error_handler)

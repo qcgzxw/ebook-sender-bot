@@ -14,9 +14,10 @@ en-us:
     /daily_stats
     /monthly_stats
     /stats
-    /enable_maintenance
+    /enable_maintenance [end_time]
     /disable_maintenance
     /test
+    /set_vip email_address
   github: |
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
@@ -48,8 +49,8 @@ en-us:
   donate: |
     If you feel easy to use, please visit our website to donate online now. Your support allows us to provide better services.
     
-    $9.99 = unlimited function for a year.
-    $19.99 = unlimited function for a lifetime.
+    $19.99 = unlimited function for a year.
+    $29.99 = unlimited function for a lifetime.
     
     remember to leave your email address.
     
@@ -107,3 +108,13 @@ en-us:
     You can donate to become a VIP user which will not be limited.
     
     /donate
+  thanksForDonation:
+    Thank you for your donation! We will process your request as soon as possible.
+  emailRequiredNotification:
+    email address required.
+  unknownEmailAddress:
+    Unknown email address.
+  setVipSuccess:
+    VIP user set successfully.
+  becomeVipMemberMessage:
+    You are now a VIP user. Thank you for your support!
