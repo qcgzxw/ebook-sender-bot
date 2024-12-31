@@ -70,6 +70,13 @@ class User(BaseModel):
         return (
             UserSendLog.create(user=self, email=self.emails[0].email, sender_email=sender_email, file_unique_id=file_unique_id)
         )
+    def set_vip(self, is_vip: bool):
+        if is_vip == self.is_vip:
+            return
+        if is_vip:
+            return User.update(is_vip=True).where(User.id == self.id).execute()
+        else:
+            return User.update(is_vip=False).where(User.id == self.id).execute()
 
     def log_created_email(self):
         return UserEmail.update(sender_email_created=1).where(UserEmail.user == self).execute()

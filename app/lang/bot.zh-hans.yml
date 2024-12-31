@@ -16,6 +16,7 @@ zh-hans:
     /enable_maintenance 开启维护模式
     /disable_maintenance 关闭维护模式
     /test 测试
+    /set_vip email 设置VIP
 
   github: |
     <b>Github: </b>
@@ -109,3 +110,13 @@ zh-hans:
     当前格式不受支持，请使用以下格式。【VIP用户将不受限制】
     
     捐赠：/donate
+  thanksForDonation:
+    感谢您的捐赠，您的支持让我们能提供更好的服务。
+  emailRequiredNotification:
+    需要提供用户邮箱地址
+  unknownEmailAddress:
+    未知的邮箱地址
+  setVipSuccess:
+    VIP用户设置成功
+  becomeVipMemberMessage:
+    您已成为VIP用户，感谢您的支持！
