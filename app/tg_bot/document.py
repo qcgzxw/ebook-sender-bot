@@ -57,7 +57,7 @@ class Document:
                 raise NotifyException('documentFileSizeError')
 
     def _check_total_send(self):
-        if not self.user.is_develop() or not self.user.is_vip():
+        if not self.user.is_develop() and not self.user.is_vip():
             if 0 < int(default_config('email_send_limit')) < self.user.get_today_send_times():
                 raise NotifyException('documentLimitError')
 
