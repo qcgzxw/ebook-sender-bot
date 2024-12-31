@@ -2,7 +2,7 @@ zh-hans:
   error: |
     <b>程序运行错误信息：</b>:
     <pre> %{err_msg} </pre>
-    <b>请联系</b>: @qcgzxw 处理
+    <b>@ebook_send_official</b>
   developError: |
     An exception was raised while handling an update
     <pre>update = %{update_data}</pre>
@@ -22,7 +22,7 @@ zh-hans:
     <b>Github: </b>
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
   start: |
-    首先，发送<code>/email yourkindleemailaddress@kindle.com</code>
+    首先，发送<code>/email email@kindle.com</code>
     设置你的kindle邮箱
 
     设置成功之后，将机器人邮箱<code>%{email}</code>
@@ -31,11 +31,17 @@ zh-hans:
     以上操作都完成之后，发送你想到传送到kindle的文档文件给该机器人，机器人将帮你发送到你的邮箱
 
     更多使用说明请发送 /help 查看
+    
+    <b>联系方式</b>
+    官方频道: <a href='https://t.me/ebook_send_official'>@ebook_send_official</a>
+    邮箱: owen@mail2me.cn
+    Github: <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+
   help: |
     <b>功能介绍</b>
     该机器人可以通过邮件的方式将你发给机器人的文档传到你的Kindle
 
-    <b>如何找到我的kinde邮箱？</b>
+    <b>如何找到我的kindle邮箱？</b>
     登录你的亚马逊账号，查看页面 <a href='https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment'>个人文档设置</a>
     你的kindle邮箱就是以<code>@kindle.com</code>结尾的邮箱地址
 
@@ -43,8 +49,16 @@ zh-hans:
     登录你的亚马逊账号，查看页面 <a href='https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment'>已认可的发件人电子邮箱列表</a>
     然后点击<b>添加认可的电子邮箱</b>
     将机器人邮箱: <code>%{email}</code>添加到列表
+    
     <b>如果不设置该选项，你的kindle将无法接收到机器人发送给你的文档</b>
+    
+    <b>联系方式</b>
+    官方频道: <a href='https://t.me/ebook_send_official'>@ebook_send_official</a>
+    邮箱: owen@mail2me.cn
+    Github: <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
   email_confirm: |
+    <b>邮箱设置成功。</b>
+    
     <b>如何添加<i>已认可的发件人电子邮箱列表</i>？</b>
     
     登录你的亚马逊账号，查看页面 <a href='https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment'>已认可的发件人电子邮箱列表</a>
@@ -71,8 +85,8 @@ zh-hans:
 
   emailErrorNotification: |
     发送:
-    <code>/email send-to-kindle-email@kindle.com</code>
-    来设置你的kindle邮箱
+    <code>/email email@kindle.com</code>
+    来设置你的kindle邮箱，请替换成你的kindle邮箱
   emailInvalidNotification: |
     邮箱无效，请检查该邮箱是否为有效的kindle邮箱
   emailNotification: |

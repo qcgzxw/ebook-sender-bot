@@ -3,7 +3,7 @@ en-us:
     <b>Error</b>:
     <pre> %{err_msg} </pre>
     
-    <a href='https://buymeacoffee.com/qcgzxw'>Contact us</a>
+    <a href='https://t.me/ebook_send_official'>Contact us</a>
   developError: |
     An exception was raised while handling an update
     <pre>update = %{update_data}</pre>
@@ -23,8 +23,14 @@ en-us:
     <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
   start: |
     First, set your <b>Send-to-Kindle e-mail</b> by sending command
-    <code>/email yourkindleemailaddress@kindle.com</code>.
+    <code>/email email@kindle.com</code>.
     You can get more send /help
+    
+    <b>contact us</b>:
+    Official Channel: <a href='https://t.me/ebook_send_official'>@ebook_send_official</a>
+    Email: owen@mail2me.cn
+    Github: <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
+
   help: |
     <b>What does this bot do?</b>
     This bot is able to send documents to your Kindle by e-mailing the documents to your <b>Send-to-Kindle e-mail</b> address.
@@ -37,8 +43,15 @@ en-us:
     You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
     Then add this bot's email: <code>%{email}</code>
     to the list otherwise you'll not be able to use this bot.
+    
+    <b>contact us</b>:
+    Official Channel: <a href='https://t.me/ebook_send_official'>@ebook_send_official</a>
+    Email: owen@mail2me.cn
+    Github: <a href='https://github.com/qcgzxw/ebook-sender-bot'>qcgzxw/ebook-sender-bot</a>
 
   email_confirm: |
+    <b>kindle email set successfully.</b>
+    
     <b>How to set the <i>Approved Personal Document E-mail</i>?</b>
     
     You can find this setting in <a href='https://www.amazon.com/hz/mycd/myx#/home/settings/payment'>Preferences</a>.
@@ -65,7 +78,7 @@ en-us:
 
   emailErrorNotification: |
     Send:
-    <code>/email send-to-kindle-email@kindle.com</code>
+    <code>/email email@kindle.com</code>
     to set your kindle email.
   emailInvalidNotification: |
     Please, check your e-mail and try again.

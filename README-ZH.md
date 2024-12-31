@@ -18,7 +18,7 @@
 ## 用法
 
 1. 打开机器人链接:[https://t.me/e_book_send_bot](https://t.me/e_book_send_bot)
-2. 发送 */email your-kindle-email@kindle.com* 来设置你的kindle邮箱。kindle邮箱可以在 [个人文档设置](https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment) 页面找到
+2. 发送 */email email@kindle.com* 来设置你的kindle邮箱。kindle邮箱可以在 [个人文档设置](https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment) 页面找到
 3. 添加机器人邮箱到 [已认可的发件人电子邮箱列表](https://www.amazon.com/gp/digital/fiona/manage#/home/settings/payment)
 4. 发送支持类型的文档到机器人，然后在kindle首页刷新检查即可。
 

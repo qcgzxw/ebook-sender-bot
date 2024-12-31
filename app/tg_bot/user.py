@@ -125,7 +125,7 @@ class User:
             else:
                 raise NotifyException('emailNotification', self.email)
 
-        if validate_email(email) and email != "send-to-kindle-email@kindle.com" and (
+        if validate_email(email) and email != "email@kindle.com" and (
             self.is_develop() or email.split('@')[-1] in self.allow_email_domain
         ):
             self.user_model.set_email(email)
