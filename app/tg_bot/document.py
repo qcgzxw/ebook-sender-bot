@@ -58,7 +58,7 @@ class Document:
 
     def _check_total_send(self):
         if not self.user.is_develop() and not self.user.is_vip():
-            if 0 < int(default_config('email_send_limit')) < self.user.get_today_send_times():
+            if 0 < int(default_config('email_send_limit')) <= self.user.get_today_send_times():
                 raise NotifyException('documentLimitError')
 
     def save_file(self, get_file_func):
