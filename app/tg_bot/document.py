@@ -13,7 +13,7 @@ from app.config.configs import default_config
 from app.tg_bot.errors import NotifyException
 from app.tg_bot.user import User
 from app.email.email_sender import send_to_kindle
-from app.utils.util import convert_book, get_book_meta
+from app.utils.util import convert_book, get_book_meta, sanitize_filename
 
 
 class Document:
@@ -32,12 +32,13 @@ class Document:
         self.user = user
         self.origin_file = document
 
+        safe_file_name = sanitize_filename(self.origin_file.file_name)
         self.origin_file_path = os.sep.join([
             os.getcwd(),
             "storage",
             str(self.user.user_model.telegram_id),
             self.origin_file.file_unique_id,
-            self.origin_file.file_name
+            safe_file_name
         ])
         self.check()
 

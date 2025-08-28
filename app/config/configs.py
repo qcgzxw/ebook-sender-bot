@@ -46,11 +46,11 @@ def database_config():
         )
     elif default_config('database') == 'postgresql':
         return PostgresqlDatabase(
-            dbname=CONFIG['mysql']['name'],
-            host=CONFIG['mysql']['host'],
-            port=int(CONFIG['mysql']['port']),
-            user=CONFIG['mysql']['user'],
-            password=CONFIG['mysql']['password']
+            database=CONFIG['postgresql']['name'],
+            host=CONFIG['postgresql']['host'],
+            port=int(CONFIG['postgresql']['port']),
+            user=CONFIG['postgresql']['user'],
+            password=CONFIG['postgresql']['password']
         )
     else:
         return SqliteDatabase(

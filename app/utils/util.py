@@ -95,6 +95,14 @@ def replace_all(text: str, dic: dict):
     return text
 
 
+def sanitize_filename(filename: str) -> str:
+    base_name = os.path.basename(filename)
+    sanitized = re.sub(r'[^A-Za-z0-9._ -]+', '_', base_name)
+    if sanitized == '':
+        sanitized = 'file'
+    return sanitized
+
+
 def gen_sender_email_username(telegram_id) -> typing.Union[str, None]:
     return 'telegram_' + str(telegram_id) + '@' + provider_config('mailcow_mailbox_domain') \
         if default_config('email_provider') == 'mailcow' or default_config('email_provider') == 'mailcow_alias' else smtp_config('username')

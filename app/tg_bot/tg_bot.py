@@ -284,12 +284,7 @@ class MessageReply:
         def send_msg(self, *args, **kwargs):
             msg = func(self, *args, **kwargs)
             if msg is not None:
-                self.bot.send_message(
-                    text=msg,
-                    chat_id=self.chat_id,
-                    parse_mode=ParseMode.HTML,
-                    disable_web_page_preview=True
-                )
+                self._send_text_chunks(msg)
 
         return send_msg
 
@@ -298,12 +293,26 @@ class MessageReply:
         if update is None or (update.message.from_user.id is None and 'chat_id' not in kwargs.keys()):
             return None
         self.chat_id = update.message.from_user.id if 'chat_id' not in kwargs.keys() else kwargs.get('chat_id')
-        i18n.set('locale', update.message.from_user.language_code.lower())
+        language_code = getattr(update.message.from_user, 'language_code', None)
+        if isinstance(language_code, str):
+            i18n.set('locale', language_code.lower())
+        else:
+            i18n.set('locale', 'en-us')
         return i18n.t(f'bot.{msg_type}', **kwargs)
 
     @send_msg_decorator
     def send_text(self, update: Update, msg: str):
         if update is None or update.message.from_user.id is None:
             return None
-
         return msg
+
+    def _send_text_chunks(self, text: str, chunk_size: int = 4000):
+        if text is None:
+            return
+        for i in range(0, len(text), chunk_size):
+            self.bot.send_message(
+                text=text[i:i + chunk_size],
+                chat_id=self.chat_id,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True
+            )
