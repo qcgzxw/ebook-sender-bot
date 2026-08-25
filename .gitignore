@@ -139,3 +139,6 @@ database*
 # project
 storage/
 books/
+
+CLAUDE.md
+.claude/
