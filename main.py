@@ -1,5 +1,6 @@
 from app.config.configs import telegram_config, database_config
 from app.model.base import database_proxy
+from app.model.message import UserMessageLog
 from app.model.user import User, UserEmail, UserSendLog
 from app.tg_bot.tg_bot import TgBot
 
@@ -7,7 +8,7 @@ from app.tg_bot.tg_bot import TgBot
 def register_db() -> None:
     database = database_config()
     database_proxy.initialize(database)
-    database.create_tables([User, UserEmail, UserSendLog])
+    database.create_tables([User, UserEmail, UserSendLog, UserMessageLog])
 
 
 def run_tg_bot() -> None:

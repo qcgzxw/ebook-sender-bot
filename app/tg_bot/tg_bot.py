@@ -9,9 +9,10 @@ import i18n
 import pytz
 import tzlocal
 from telegram import Update, ParseMode, Bot
-from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters, TypeHandler
 
 from app.config.configs import default_config
+from app.model.message import UserMessageLog
 from app.model.user import UserEmail
 from app.tg_bot.document import Document
 from app.tg_bot.errors import NotifyException
@@ -65,6 +66,15 @@ class TgBot:
                 err_msg=html.escape(tb_string),
                 chat_id=self.develop_chat_id,
             )
+
+    def log_message(self, update: Update, context: CallbackContext) -> None:
+        """Record every inbound update for troubleshooting. Runs before all other handlers."""
+        try:
+            UserMessageLog.log_update(update)
+        except Exception:
+            # Must never propagate: this runs for every update, and Dispatcher would route the
+            # exception to error_handler, replying to the user and paging the developer each time.
+            self.logger.exception("Failed to log inbound message")
 
     def command_github(self, update: Update, context: CallbackContext) -> None:
         self.reply.send_msg(update, 'github')
@@ -245,6 +255,10 @@ class TgBot:
         updater = Updater(self.token)
         dispatcher = updater.dispatcher
         self.reply = MessageReply(self.token)
+
+        # Log every inbound update first. A lower group runs before group 0, and each group is
+        # dispatched independently, so this never shadows the handlers below.
+        dispatcher.add_handler(TypeHandler(Update, self.log_message), group=-1)
 
         # Register the commands...
         dispatcher.add_handler(CommandHandler('start', self.command_start))
